@@ -45,36 +45,27 @@ const turnConfigurations = [
             { urls: "stun:stun.relay.metered.ca:80" }, // Same STUN can be reused
             {
                 urls: "turn:global.relay.metered.ca:80",
-                username: "8540c8b39bd5879d60a33054", // Replace with new credentials
-                credential: "h3xFEaewizPyk9Ev"
+                username: "51ce19f71e425b82d584c3f9", // Replace with new credentials
+                credential: "y3y8M7SKbRnt67UR"
             },
             {
                 urls: "turn:global.relay.metered.ca:80?transport=tcp",
-                username: "8540c8b39bd5879d60a33054",
-                credential: "h3xFEaewizPyk9Ev"
+                username: "51ce19f71e425b82d584c3f9",
+                credential: "y3y8M7SKbRnt67UR"
             },
             {
                 urls: "turn:global.relay.metered.ca:443",
-                username: "8540c8b39bd5879d60a33054",
-                credential: "h3xFEaewizPyk9Ev"
+                username: "51ce19f71e425b82d584c3f9",
+                credential: "y3y8M7SKbRnt67UR"
             },
             {
                 urls: "turns:global.relay.metered.ca:443?transport=tcp",
-                username: "8540c8b39bd5879d60a33054",
-                credential: "h3xFEaewizPyk9Ev"
+                username: "51ce19f71e425b82d584c3f9",
+                credential: "y3y8M7SKbRnt67UR"
             }
         ]
     },
-    // TURN Server 2 (Backup)
-    {
-        iceServers: [
-            { urls: "stun:stun.relay.metered.ca:80" },
-            { urls: "turn:global.relay.metered.ca:80", username: "51ce19f71e425b82d584c3f9", credential: "y3y8M7SKbRnt67UR" },
-            { urls: "turn:global.relay.metered.ca:80?transport=tcp", username: "51ce19f71e425b82d584c3f9", credential: "y3y8M7SKbRnt67UR" },
-            { urls: "turn:global.relay.metered.ca:443", username: "51ce19f71e425b82d584c3f9", credential: "y3y8M7SKbRnt67UR" },
-            { urls: "turns:global.relay.metered.ca:443?transport=tcp", username: "51ce19f71e425b82d584c3f9", credential: "y3y8M7SKbRnt67UR" }
-        ]
-    },
+    
     {
         iceServers: [
             { urls: "stun:stun.l.google.com:19302" },
