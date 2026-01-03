@@ -479,18 +479,32 @@ fileInput.addEventListener('change', async () => {
 
     const reader = new FileReader();
     reader.onload = () => {
+        const arrayBuffer = reader.result;
+
+        // Create a playable URL for your own preview (same as receiver gets)
+        const blob = new Blob([arrayBuffer], { type: file.type });
+        const url = URL.createObjectURL(blob);
+
+        const fileInfoWithUrl = {
+            name: file.name,
+            type: file.type,
+            size: file.size,
+            url: url  // This makes your own video playable immediately
+        };
+
         const messageData = {
             file: {
                 name: file.name,
                 type: file.type,
                 size: file.size,
-                data: reader.result
+                data: arrayBuffer
             }
         };
 
         socket.emit('chatMessage', messageData);
 
-        appendFileMessage(messageData.file, 'user-message');
+        // Now your own sent video will play (no more gray screen)
+        appendFileMessage(fileInfoWithUrl, 'user-message');
 
         fileInput.value = '';
     };
