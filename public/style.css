@@ -212,3 +212,60 @@ header {
   color: #dc3545 !important;
 }
 
+/* --- Authentication Card Styling --- */
+#authCard {
+  background: #222 !important; /* Matches your interestCard background */
+  border: 1px solid #333 !important;
+  border-radius: 0.5rem;
+}
+
+/* Nav Pills (Tabs) Customization */
+.nav-pills .nav-link {
+  color: #e0e0e0;
+  border-radius: 0.375rem;
+  transition: all 0.3s ease;
+  background-color: transparent;
+}
+
+.nav-pills .nav-link:hover {
+  background-color: #2a2a2a;
+}
+
+.nav-pills .nav-link.active {
+  background-color: #0d6efd !important;
+  color: #fff !important;
+}
+
+/* Custom Google Button to match dark theme */
+.google-btn {
+  border-color: #444;
+  background-color: #2a2a2a;
+  color: #e0e0e0;
+  transition: background-color 0.3s, transform 0.2s, border-color 0.3s;
+}
+
+.google-btn:hover {
+  background-color: #333;
+  color: #fff;
+  border-color: #0d6efd; /* Subtle brand-color highlight on hover */
+  transform: scale(1.02);
+}
+
+/* Reuse your existing custom focus outline for forms */
+#authSection .form-control {
+  background-color: #2a2a2a;
+  border-color: #444;
+  color: #e0e0e0;
+}
+
+#authSection .form-control::placeholder {
+  color: #6c757d;
+}
+
+#authSection .form-control:focus {
+  background-color: #2a2a2a;
+  border-color: #0d6efd;
+  color: #e0e0e0;
+  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+

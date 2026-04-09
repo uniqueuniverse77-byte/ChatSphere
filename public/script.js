@@ -1,6 +1,111 @@
+// --- FIREBASE AUTHENTICATION INIT ---
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+import { 
+    getAuth, 
+    createUserWithEmailAndPassword, 
+    signInWithEmailAndPassword,
+    GoogleAuthProvider,
+    signInWithPopup,
+    signInAnonymously,
+    signOut,
+    onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
+// YOUR REAL FIREBASE CONFIGURATION
+const firebaseConfig = {
+  apiKey: "AIzaSyDFxfFxOdiwxPLiDlKx_D-fgShvKnn56Qw",
+  authDomain: "chat-sphere-f90bf.firebaseapp.com",
+  projectId: "chat-sphere-f90bf",
+  storageBucket: "chat-sphere-f90bf.firebasestorage.app",
+  messagingSenderId: "1066693364801",
+  appId: "1:1066693364801:web:85825e16fd7a52613a0ac0",
+  measurementId: "G-52B552ER14"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const googleProvider = new GoogleAuthProvider();
+
+// Auth DOM Elements
+const authSection = document.getElementById('authSection');
+const interestCard = document.getElementById('interestCard');
+const chatArea = document.getElementById('chatArea');
+const loginForm = document.getElementById('loginForm');
+const registerForm = document.getElementById('registerForm');
+const googleBtns = document.querySelectorAll('.google-btn');
+const guestLoginBtn = document.getElementById('guestLoginBtn');
+const logoutBtn = document.getElementById('logoutBtn');
+
+// 1. Handle Email Registration
+registerForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const email = registerForm.querySelector('input[type="email"]').value;
+    const password = registerForm.querySelector('input[type="password"]').value;
+
+    createUserWithEmailAndPassword(auth, email, password)
+        .catch((error) => alert("Registration failed: " + error.message));
+});
+
+// 2. Handle Email Login
+loginForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const email = loginForm.querySelector('input[type="email"]').value;
+    const password = loginForm.querySelector('input[type="password"]').value;
+
+    signInWithEmailAndPassword(auth, email, password)
+        .catch((error) => alert("Login failed: " + error.message));
+});
+
+// 3. Handle Google Sign-In
+googleBtns.forEach(btn => {
+    btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        signInWithPopup(auth, googleProvider)
+            .catch((error) => alert("Google Sign-In failed: " + error.message));
+    });
+});
+
+// Handle Guest Login
+guestLoginBtn.addEventListener('click', () => {
+    signInAnonymously(auth)
+        .catch((error) => alert("Guest Login failed: " + error.message));
+});
+// 4. Handle Logout
+logoutBtn.addEventListener('click', () => {
+    signOut(auth).catch((error) => alert("Logout failed: " + error.message));
+});
+
+
+// 5. Listen for User State Changes
+onAuthStateChanged(auth, (user) => {
+    if (user) {
+        // User logged in
+        authSection.style.display = 'none';
+        interestCard.style.display = 'block'; 
+        logoutBtn.style.display = 'block';
+    } else {
+        // User logged out
+        authSection.style.display = 'flex';
+        interestCard.style.display = 'none';
+        chatArea.style.display = 'none';
+        logoutBtn.style.display = 'none';
+        
+        // Disconnect WebRTC/Socket if running
+        if (peerConnection) {
+            peerConnection.close();
+            peerConnection = null;
+        }
+        if (localStream) {
+            localStream.getTracks().forEach(track => track.stop());
+            localStream = null;
+        }
+    }
+});
+
+
+
 const socket = io();
 const interestForm = document.getElementById('interestForm');
-const chatArea = document.getElementById('chatArea');
 const localVideo = document.getElementById('localVideo');
 const remoteVideo = document.getElementById('remoteVideo');
 const chatBox = document.getElementById('chatBox');
