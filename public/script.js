@@ -488,7 +488,7 @@ async function initiateCall(configIndex = 0) {
     connectionTimeout = setTimeout(() => {
         if (peerConnection && peerConnection.iceConnectionState !== 'connected' &&
             peerConnection.iceConnectionState !== 'completed') {
-            appendMessage('Connection taking too long. This might be due to network restrictions.', 'system-message');
+            //appendMessage('Connection taking too long. This might be due to network restrictions.', 'system-message');
 
             if (connectionAttempts < turnConfigurations.length - 1) {
                 connectionAttempts++;
@@ -1037,10 +1037,10 @@ function handlePartnerStateChange(data) {
         }
     } else if (data.type === 'video-state') {
         if (data.isOff) {
-            appendMessage('Partner turned off their camera', 'system-message');
+            //appendMessage('Partner turned off their camera', 'system-message');
             remoteVideo.style.background = 'url("https://picsum.photos/seed/partner/640/480.jpg") center/cover';
         } else {
-            appendMessage('Partner turned on their camera', 'system-message');
+            //appendMessage('Partner turned on their camera', 'system-message');
             remoteVideo.style.background = '';
         }
     }
