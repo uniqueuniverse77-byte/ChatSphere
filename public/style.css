@@ -269,3 +269,14 @@ header {
   box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
 }
 
+/* Mirror your own camera (Local) */
+#localVideo {
+    transform: scaleX(-1);
+    -webkit-transform: scaleX(-1);
+}
+
+/* Ensure the stranger's camera is NOT mirrored (Remote) */
+#remoteVideo {
+    transform: scaleX(1);
+    -webkit-transform: scaleX(1);
+}

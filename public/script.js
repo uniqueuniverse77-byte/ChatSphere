@@ -265,7 +265,8 @@ interestForm.addEventListener('submit', async e => {
         localStream = await navigator.mediaDevices.getUserMedia({
             video: {
                 width: { ideal: 1280 },
-                height: { ideal: 720 }
+                height: { ideal: 720 },
+                aspectRatio: 1.7777777778 // This is 16:9 ratio
             },
             audio: true
         });
@@ -294,8 +295,8 @@ socket.on('partner', (data) => {
     }
     remoteVideo.srcObject = null;
     chatBox.innerHTML = '';
-    appendMessage(`Connected with a stranger from ${data.country}!`, 'system-message');
-    appendMessage('Establishing video connection...', 'system-message');
+    //appendMessage(`Connected with a stranger from ${data.country}!`, 'system-message');
+    //appendMessage('Establishing video connection...', 'system-message');
 
     connectionAttempts = 0;
     currentConfigIndex = 0;
@@ -316,7 +317,7 @@ socket.on('partner', (data) => {
 });
 
 socket.on('partner-left', () => {
-    appendMessage('Stranger has disconnected.', 'system-message');
+    //appendMessage('Stranger has disconnected.', 'system-message');
     remoteVideo.srcObject = null;
     partnerInfo.style.display = 'none';
     if (peerConnection) {
@@ -327,7 +328,7 @@ socket.on('partner-left', () => {
 });
 
 socket.on('searching', () => {
-    appendMessage('Searching for someone with similar interests...', 'system-message');
+    //appendMessage('Searching for someone with similar interests...', 'system-message');
 });
 
 // Video control event listeners
@@ -354,7 +355,7 @@ newMatchBtn.addEventListener('click', () => {
     if (connectionTimeout) clearTimeout(connectionTimeout);
     if (connectionProgressInterval) clearInterval(connectionProgressInterval);
 
-    appendMessage('Searching for a new match...', 'system-message');
+    //appendMessage('Searching for a new match...', 'system-message');
 
     socket.emit('newMatch');
 });
@@ -420,7 +421,7 @@ function createPeerConnection(configIndex = 0) {
 
             remoteVideo.play().catch(e => console.error('Error playing remote video:', e));
             
-            appendMessage('Video connected!', 'system-message');
+            //appendMessage('Video connected!', 'system-message');
             stopConnectionProgress();
         }
     };
@@ -432,22 +433,22 @@ function createPeerConnection(configIndex = 0) {
         if (iceConnectionTimer) clearTimeout(iceConnectionTimer);
 
         if (state === 'connected' || state === 'completed') {
-            appendMessage('Connection established successfully!', 'system-message');
+            //appendMessage('Connection established successfully!', 'system-message');
             stopConnectionProgress();
         } else if (state === 'failed' || state === 'disconnected' || state === 'closed') {
-            appendMessage('Connection failed. This might be due to network restrictions.', 'system-message');
+            //appendMessage('Connection failed. This might be due to network restrictions.', 'system-message');
             stopConnectionProgress();
 
             if (connectionAttempts < turnConfigurations.length - 1) {
                 connectionAttempts++;
                 console.log(`Connection failed with config ${configIndex}, trying config ${connectionAttempts}`);
-                appendMessage('Connection issue, retrying with different configuration...', 'system-message');
+                //appendMessage('Connection issue, retrying with different configuration...', 'system-message');
 
                 if (isInitiator) {
                     setTimeout(() => initiateCall(connectionAttempts), 1000);
                 }
             } else {
-                appendMessage('All connection attempts failed. Please check your network or try again later.', 'system-message');
+                //appendMessage('All connection attempts failed. Please check your network or try again later.', 'system-message');
             }
         } else if (state === 'checking') {
             iceConnectionTimer = setTimeout(() => {
@@ -460,7 +461,7 @@ function createPeerConnection(configIndex = 0) {
                             initiateCall(connectionAttempts);
                         }
                     } else {
-                        appendMessage('Unable to establish connection. Please try again later.', 'system-message');
+                        //appendMessage('Unable to establish connection. Please try again later.', 'system-message');
                         stopConnectionProgress();
                     }
                 }
@@ -471,7 +472,7 @@ function createPeerConnection(configIndex = 0) {
     peerConnection.onconnectionstatechange = () => {
         console.log('Connection state:', peerConnection.connectionState);
         if (peerConnection.connectionState === 'failed') {
-            appendMessage('Connection failed. Click "New Match" to try again.', 'system-message');
+            //appendMessage('Connection failed. Click "New Match" to try again.', 'system-message');
             stopConnectionProgress();
         }
     };
@@ -1030,9 +1031,9 @@ function toggleRemoteAudio() {
 function handlePartnerStateChange(data) {
     if (data.type === 'audio-state') {
         if (data.isMuted) {
-            appendMessage('Partner muted their microphone', 'system-message');
+            //appendMessage('Partner muted their microphone', 'system-message');
         } else {
-            appendMessage('Partner unmuted their microphone', 'system-message');
+            //appendMessage('Partner unmuted their microphone', 'system-message');
         }
     } else if (data.type === 'video-state') {
         if (data.isOff) {

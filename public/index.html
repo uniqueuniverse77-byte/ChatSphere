@@ -119,8 +119,10 @@
     }
     .video-stream {
       background-color: #000;
-      min-height: 300px;
-      object-fit: cover;
+      width: 100%;
+      aspect-ratio: 16 / 9;   /* This maintains the PC widescreen shape */
+    /*object-fit: cover; */    /* This crops the mobile portrait view to fit the wide box */
+      border-radius: 0.375rem;
     }
     .flag-img {
       width: 24px;
@@ -129,7 +131,7 @@
       border-radius: 2px;
     }
     .chat-box {
-      height: 300px;
+      height: 200px;
       overflow-y: auto;
       background-color: #1a1a1a;
       border-radius: 0.375rem;
@@ -151,13 +153,13 @@
       background-color: #495057;
       color: white;
     }
-    .system-message {
-      background-color: #343a40;
-      color: #6c757d;
-      text-align: center;
-      font-style: italic;
-      max-width: 100%;
-      font-size: 0.875rem;
+    /* This ensures system messages take up ZERO pixels of space */
+   .system-message {
+     display: none !important;
+     margin: 0 !important;
+     padding: 0 !important;
+     height: 0 !important;
+     visibility: hidden;
     }
     .file-attachment {
       margin-top: 0.5rem;
