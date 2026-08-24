@@ -1,0 +1,562 @@
+.duck-hide {
+  display: none !important;
+}
+
+/* =========================
+   Generic modal (duck pages)
+   ========================= */
+.modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  z-index: 10002; /* above header/menu */
+  padding: 24px 12px;
+  box-sizing: border-box;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal.show {
+  display: flex;
+}
+
+.modal .modal-content {
+  position: relative;
+  max-width: 640px;
+  width: 100%;
+  max-height: calc(100vh - 48px);
+  margin: 0 auto;
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.25);
+  overflow-y: auto;
+}
+
+.modal .close {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  font-size: 26px;
+  line-height: 1;
+  cursor: pointer;
+  color: #666;
+  user-select: none;
+}
+
+.modal .close:hover {
+  color: #111;
+}
+
+.modal textarea {
+  width: 100%;
+  box-sizing: border-box;
+  border-radius: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  padding: 12px;
+  font-family: inherit;
+  font-size: 16px; /* Avoid iOS zoom-in on focus */
+}
+
+.modal .button,
+.modal button.button,
+.modal input.button {
+  cursor: pointer;
+}
+
+.duck-scrollbar {
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  position: relative;
+  overflow-y: auto;
+  height: auto;
+  background-color: #fef7ef;
+}
+
+/* Mobile-specific tweaks so feedback modal doesn't appear "zoomed" or half off-screen */
+@media (max-width: 768px) {
+  .modal {
+    align-items: flex-start;
+    padding: 16px 10px;
+  }
+
+  .modal .modal-content {
+    max-height: calc(100vh - 32px);
+    margin-top: 8px;
+  }
+}
+
+.duck-scrollbar::-webkit-scrollbar {
+  width: 5PX;
+  height: 10PX;
+}
+
+.duck-scrollbar::-webkit-scrollbar-track-piece {
+  background-color: #fafafa;
+  border-radius: 0;
+}
+
+.duck-scrollbar::-webkit-scrollbar-thumb:vertical {
+  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 5PX;
+}
+
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+.duck-oy-auto {
+  overflow-y: auto;
+}
+
+.duck-sticky {
+  position: sticky;
+  top: 0;
+  background-color: #fff;
+  z-index: 10000;
+}
+
+.duck-list-pd {
+  padding: 10px;
+}
+
+.duck-mb-0 {
+  margin-bottom: 0 !important;
+}
+
+.duck-flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  white-space: nowrap;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.duck-scrollbar .menu {
+  width: 40px;
+  height: 40px;
+  margin-left: 16px;
+  display: block;
+  cursor: pointer;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+  padding: 6px;
+  box-sizing: border-box;
+  border-radius: 8px;
+}
+
+.duck-scrollbar .menu:hover {
+  background-color: #f0f7ff;
+  transform: scale(1.05);
+}
+
+.duck-scrollbar .mask {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+}
+
+.duck-scrollbar .accordion {
+  position: absolute;
+  top: 80px;
+  right: 20px;
+  display: none;
+  padding: 8px 0;
+  border-radius: 12px;
+  border: none;
+  background-color: #fff;
+  min-width: 320px;
+  box-sizing: border-box;
+  z-index: 10001;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.08);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.duck-scrollbar .accordion-header {
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 15px;
+  color: #2c3e50;
+  padding: 0 20px;
+  margin: 2px 0;
+  border-radius: 8px;
+  font-weight: 500;
+}
+
+.duck-scrollbar .accordion-header a {
+  color: inherit;
+  text-decoration: none;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+.duck-scrollbar .accordion-header:hover {
+  background-color: #f0f7ff;
+  color: #3498db;
+}
+
+.duck-scrollbar .accordion-header:hover a {
+  color: inherit;
+}
+
+.duck-scrollbar .accordion-header a:focus-visible,
+.duck-scrollbar .accordion-content a:focus-visible {
+  outline: 2px solid rgba(52, 152, 219, 0.6);
+  outline-offset: 2px;
+  border-radius: 8px;
+}
+
+.duck-scrollbar .accordion-content {
+  display: none;
+  padding: 4px 0 8px;
+  background-color: transparent;
+}
+
+.duck-scrollbar .accordion-content.show {
+  display: block;
+}
+
+.duck-scrollbar .accordion-content a {
+  height: auto;
+  margin: 4px 0;
+  padding: 8px 20px 8px 40px;
+  font-size: 14px;
+  font-weight: 400;
+  color: #666;
+  text-decoration: none;
+  display: block;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.duck-start-video-chat-btn,
+a.duck-start-video-chat-btn {
+  text-decoration: none !important;
+}
+
+.duck-scrollbar .accordion-content a:hover {
+  background-color: #f0f7ff;
+  color: #3498db;
+}
+
+.duck-scrollbar .accordion-content a:last-child {
+  margin-bottom: 0;
+}
+
+.duck-scrollbar .accordion-header img {
+  width: 24px;
+  height: 24px;
+  display: block;
+  transition: transform 0.3s;
+}
+
+.duck-scrollbar .accordion-header.expanded img {
+  transform: rotate(90deg);
+}
+
+@media only screen and (min-width: 1025px) {
+  .duck-header {
+    width: 100%;
+    height: 80px;
+    box-sizing: border-box;
+    /* Keep a consistent compact "top marquee" thickness across breakpoints. */
+    padding: 0.2em 40px;
+    box-shadow: 0 -3px 0 0 rgba(0, 0, 0, 0.05);
+    background-color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .duck-header .logo {
+    height: 57px;
+    width: auto;
+    display: block;
+    object-fit: contain;
+  }
+
+  .duck-header .login-btn {
+    width: 120px;
+    height: 48px;
+    text-align: center;
+    line-height: 48px;
+    box-sizing: border-box;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 500;
+    background-color: #ef8632;
+    color: #fff;
+    box-sizing: border-box;
+    cursor: pointer;
+    text-decoration: none;
+    margin-left: 16px;
+    border: none;
+  }
+
+  .duck-online-num {
+    font-size: 28px;
+    font-weight: 900;
+    color: #5a9df8;
+    padding-left: 20px;
+    white-space: nowrap;
+  }
+
+  .duck-start-video-chat {
+    width: 335px;
+    height: 72px;
+    border-radius: 6px;
+    background: linear-gradient(to bottom, #89bbf9, #3e87f7 100%), linear-gradient(to bottom, #90b4e3, #3570d6);
+    margin: 0 auto 20px;
+    position: relative;
+    cursor: pointer;
+    overflow: hidden;
+  }
+
+  .duck-start-video-chat.ome {
+    margin-bottom: 80px;
+  }
+
+  .duck-start-video-chat.with-card {
+    margin: 8px auto;
+  }
+
+  .duck-start-video-chat-btn {
+    width: 100%;
+    height: 72px;
+    line-height: 72px;
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+    color: #fff;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    position: relative;
+    z-index: 1;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .duck-start-video-chat-tip {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    animation: duck-go 2s linear infinite;
+    z-index: 0;
+  }
+}
+
+/* 移动端样式 */
+@media only screen and (max-width: 1024px) {
+  .duck-header {
+    width: 100%;
+    height: 60px;
+    box-sizing: border-box;
+    /* Keep a consistent compact "top marquee" thickness across breakpoints. */
+    padding: 0.2em 16px;
+    box-shadow: 0 -3px 0 0 rgba(0, 0, 0, 0.05);
+    background-color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .duck-scrollbar .mask {
+    opacity: 0.6;
+    background-color: #000;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 9999;
+  }
+
+  .duck-scrollbar .accordion {
+    position: absolute;
+    top: 60px;
+    right: 0px;
+    display: none;
+    padding: 8px 0;
+    border-radius: 0;
+    border: none;
+    background-color: #fff;
+    width: 100%;
+    box-sizing: border-box;
+    min-width: auto;
+    z-index: 10001;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  }
+
+  .duck-header .logo {
+    width: 130px;
+    display: block;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .duck-header .login-btn {
+    width: 120px;
+    height: 42px;
+    text-align: center;
+    line-height: 42px;
+    box-sizing: border-box;
+    font-size: 16px;
+    font-weight: 500;
+    border-radius: 8px;
+    background-color: #ef8632;
+    color: #fff;
+    box-sizing: border-box;
+    cursor: pointer;
+    text-decoration: none;
+    border: none;
+  }
+
+  .duck-online-num {
+    font-size: 16px;
+    font-weight: 700;
+    color: #5a9df8;
+    padding-left: 12px;
+    white-space: nowrap;
+  }
+
+  .duck-scrollbar .menu {
+    width: 36px;
+    height: 36px;
+    padding: 4px;
+  }
+
+  .duck-start-video-chat {
+    margin: 0 auto 20px;
+    position: relative;
+    height: 72px;
+    border-radius: 6px;
+    background: linear-gradient(to bottom, #89bbf9, #3e87f7 100%), linear-gradient(to bottom, #90b4e3, #3570d6);
+    overflow: hidden;
+    width: 90%;
+    max-width: 335px;
+  }
+
+  .duck-start-video-chat.ome {
+    margin-bottom: 40px;
+  }
+
+  .duck-start-video-chat.with-card {
+    width: 90%;
+    max-width: 335px;
+    margin: 8px auto;
+  }
+
+  .duck-start-video-chat-btn {
+    text-decoration: none;
+    width: 100%;
+    height: auto;
+    display: block;
+    cursor: pointer;
+    height: 72px;
+    line-height: 72px;
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+    color: #fff;
+    border: none;
+    background: transparent;
+    position: relative;
+    z-index: 1;
+  }
+
+  .duck-start-video-chat-tip {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    animation: duck-go 2s linear infinite;
+    z-index: 0;
+  }
+}
+
+@keyframes duck-go {
+  0% {
+    left: 0;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+.duck-card,
+.duck-card-white {
+  background-color: #fff;
+  border-radius: 12px;
+  padding: 2rem;
+  margin: 1.5rem 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  box-sizing: border-box;
+}
+
+.duck-card-sub-title {
+  font-size: 1.5em;
+  font-weight: 600;
+  color: #2c3e50;
+  margin: 0 0 1rem 0;
+  line-height: 1.4;
+}
+
+.duck-card p,
+.duck-card-white p {
+  margin: 0 0 1rem 0;
+  line-height: 1.7;
+  color: #333;
+  font-size: 1em;
+}
+
+.duck-card p:last-child,
+.duck-card-white p:last-child {
+  margin-bottom: 0;
+}
+
+.duck-list-pd {
+  padding-left: 0;
+  list-style: none;
+  margin: 1rem 0;
+}
+
+.duck-list-pd li {
+  margin: 0.75rem 0;
+  padding-left: 0.5rem;
+  line-height: 1.6;
+  color: #333;
+  font-size: 1em;
+}
+
+@media only screen and (max-width: 1024px) {
+  .duck-card,
+  .duck-card-white {
+    padding: 1.5rem;
+    margin: 1rem 0;
+  }
+
+  .duck-card-sub-title {
+    font-size: 1.3em;
+  }
+}

@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>ChatSphere Video Chat – Random Video Call with Strangers | ChatSphere</title>
+  <meta name="description" content="ChatSphere video chat is back. Free random video calls with strangers, interest matching, instant skip. ChatSphere is a modern ChatSphere alternative. Adults-only (18+)." />
+  <meta name="keywords" content="ChatSphere video chat, random video chat, video call strangers, ChatSphere alternative, ChatSphere, free video chat, webcam chat, 18+ video chat" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="ChatSphere Video Chat – Random Video Call with Strangers | ChatSphere" />
+  <meta property="og:description" content="Free random video chat with strangers. 18+ only, interest matching, instant skip." />
+  <meta property="og:image" content="assets/x.png" />
+  <link rel="canonical" href="video.html" />
+  <link rel="icon" href="favicon.png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com/" />
+  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet" />
+
+  <!-- Bootstrap Icons for control buttons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" />
+
+  <link rel="stylesheet" href="css/video2501b.css?v=20260607" />
+  <link rel="stylesheet" href="chat-app/style.css?v=working8" />
+
+  <!-- Age gate -->
+  <script>
+    (function () {
+      var KEY = 'ChatSphere_age_gate_accepted_v1';
+      try { window.localStorage && window.localStorage.setItem(KEY, '1'); } catch (_) {}
+      try { document.cookie = KEY + '=1; Path=/; Max-Age=31536000; SameSite=Lax'; } catch (_) {}
+    })();
+  </script>
+
+  <!-- Pre-paint theme to avoid flash of wrong theme (FOUC) -->
+  <script src="chat-app/theme.js?v=working8"></script>
+</head>
+
+<body class="video-page">
+
+  <!-- Hidden interest card (script.js updates it but we don't show it on the video page) -->
+  <section id="interestCard" style="display:none;">
+    <div id="interestGrid"></div>
+    <input id="interestCustomInput" type="text" />
+    <button id="addInterestBtn" type="button">Add</button>
+  </section>
+
+  <!-- Hidden partner bar (script.js updates it but we surface info in chat zone instead) -->
+  <div id="partnerBar" style="display:none;">
+    <span id="partnerFlag"><img src="" alt="" /></span>
+    <div id="partnerCountry"></div>
+    <div id="sharedInterests"></div>
+    <div id="partnerStatus"></div>
+  </div>
+
+  <!-- ====================== Top video stage (60vh) ====================== -->
+  <section class="video-stage">
+
+    <!-- LEFT: local video area (the user's own webcam) -->
+    <div class="stage-local">
+      <!-- Local video fills the whole panel; mirrored so it feels like a mirror -->
+      <video id="localVideo" autoplay muted playsinline></video>
+
+      <!-- Pre-start empty state — branding + online counter live here until camera starts -->
+      <div id="localTileEmpty" class="tile-empty local-tile-empty">
+        <i class="bi bi-camera-video"></i>
+        <span>Your camera will appear here</span>
+        <a href="index.html" class="stage-logo">
+          <img src="assets/logo.png" alt="ChatSphere" />
+          <span class="brand-name">ChatSphere<b>web</b></span>
+        </a>
+        <div class="online-counter">
+          <span class="online-dot"></span>
+          <strong id="onlineCount">0</strong>
+          <span class="counter-suffix"> online</span>
+        </div>
+        <p class="stage-tagline">Press <strong>Start</strong> below to enable your camera and meet a random stranger.</p>
+      </div>
+
+      <!-- Social login row (top-left, overlay on top of local video) -->
+      <div class="social-logins">
+        <button type="button" class="social-btn social-facebook" onclick="window.open('https://facebook.com','_blank')" title="Facebook">
+          <i class="bi bi-facebook"></i> <span>Facebook</span>
+        </button>
+        <button type="button" class="social-btn social-twitter" onclick="window.open('https://twitter.com','_blank')" title="X (Twitter)">
+          <i class="bi bi-twitter-x"></i>
+        </button>
+        <button type="button" class="social-btn social-reddit" onclick="window.open('https://reddit.com','_blank')" title="Reddit">
+          <i class="bi bi-reddit"></i>
+        </button>
+      </div>
+
+      <!-- "You" label badge (bottom-left, overlay) -->
+      <div class="local-label">You</div>
+
+      <!-- Local mic / camera toggle controls (bottom-right, overlay) -->
+      <div class="local-controls">
+        <button id="localAudioToggle" type="button" title="Mute mic">
+          <i class="bi bi-mic-fill"></i>
+        </button>
+        <button id="localVideoToggle" type="button" title="Turn camera off">
+          <i class="bi bi-camera-video-fill"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- RIGHT: remote video area (black) — stranger's video -->
+    <div class="stage-remote">
+      <video id="remoteVideo" autoplay playsinline></video>
+
+      <!-- Pre-connection empty state -->
+      <div id="remoteTileEmpty" class="tile-empty">
+        <i class="bi bi-camera-video-off"></i>
+        <span>Stranger's video will appear here</span>
+      </div>
+
+      <!-- Remote audio toggle (bottom-right of remote area) -->
+      <button id="remoteAudioToggle" type="button" class="pip-remote-audio" title="Mute partner's audio">
+        <i class="bi bi-volume-up-fill"></i>
+      </button>
+
+      <!-- Theme toggle button (top-right of remote area) -->
+      <button id="themeToggleBtn" class="theme-toggle-btn video-theme-toggle" type="button" title="Switch theme" aria-label="Toggle dark mode">
+        <i class="bi bi-moon-stars-fill"></i>
+      </button>
+    </div>
+
+  </section>
+
+  <!-- ====================== Bottom control deck (40vh) ====================== -->
+  <section id="chatArea" class="control-deck">
+
+    <!-- LEFT: 2x3 button grid -->
+    <div class="button-grid">
+      <button id="startChatBtn" class="deck-btn primary tall" type="button" title="Start video chat">
+        <i class="bi bi-play-fill"></i>
+        <span>Start</span>
+      </button>
+      <button id="skipBtn" class="deck-btn danger tall" type="button" title="Stop / Skip (Esc)" disabled>
+        <i class="bi bi-stop-fill"></i>
+        <span>Stop</span>
+      </button>
+      <button id="countryBtn" class="deck-btn" type="button" title="Country filter">
+        <i class="bi bi-globe"></i>
+        <span>Country</span>
+      </button>
+      <button id="premiumBtn" class="deck-btn" type="button" title="Premium features">
+        <i class="bi bi-crown"></i>
+        <span>Premium</span>
+      </button>
+      <button id="iamBtn" class="deck-btn" type="button" title="Identity filter">
+        <i class="bi bi-person"></i>
+        <span>I am</span>
+      </button>
+      <button id="settingsBtn" class="deck-btn" type="button" title="Settings">
+        <i class="bi bi-gear"></i>
+        <span>Settings</span>
+      </button>
+    </div>
+
+    <!-- RIGHT: chat zone -->
+    <div class="chat-zone">
+      <!-- Floating stranger pill + session timer overlays -->
+      <div id="strangerCountryPill" class="stranger-country-pill" style="display:none;">
+        Stranger is from <strong id="strangerCountryName">Unknown</strong>
+        <span id="strangerCountryFlag" class="pill-flag">🏳</span>
+      </div>
+      <div id="sessionTimer" class="session-timer" style="display:none;">00:00:00</div>
+
+      <!-- Messages / rules banner -->
+      <div id="chatBox" class="chat-box">
+        <div class="rules-banner">
+          Tap <strong>Start</strong> to accept the <a href="tos.html">rules</a>. Keep your face visible and chat respectfully. <a href="safety.html">Safety tips</a>.
+        </div>
+      </div>
+
+      <div id="typingIndicator" class="typing-indicator" style="display:none;"></div>
+
+      <!-- Input row: paperclip + text input + Send -->
+      <div class="chat-input-row">
+        <input id="fileInput" type="file" style="display:none;" accept="image/*,video/*,application/pdf" />
+        <button id="attachmentBtn" class="icon-btn" type="button" title="Attach file">
+          <i class="bi bi-paperclip"></i>
+        </button>
+        <input id="chatInput" type="text" placeholder="Type a message..." autocomplete="off" />
+        <button id="sendBtn" class="send-btn" type="button" title="Send message (Enter)">
+          <i class="bi bi-send"></i>
+        </button>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- hidden video card so script.js can run without error -->
+  <div id="videoCard" style="display:none;"></div>
+
+  <!-- ====================== Modal popups for the 4 control buttons ====================== -->
+  <!-- Country filter popup -->
+  <div id="countryPopup" class="deck-popup" style="display:none;">
+    <div class="popup-card">
+      <button type="button" class="popup-close" data-close title="Close">&times;</button>
+      <h3><i class="bi bi-globe"></i> Country Filter</h3>
+      <p>Only match me with strangers from this country. Leave on <em>Any</em> for the default random match.</p>
+      <label class="popup-label">Match country</label>
+      <select id="popupMatchCountry" class="popup-select">
+        <option value="">Any Country</option>
+        <option value="US">United States</option>
+        <option value="GB">United Kingdom</option>
+        <option value="CA">Canada</option>
+        <option value="AU">Australia</option>
+        <option value="IN">India</option>
+        <option value="DE">Germany</option>
+        <option value="FR">France</option>
+        <option value="BR">Brazil</option>
+        <option value="JP">Japan</option>
+        <option value="PH">Philippines</option>
+        <option value="EG">Egypt</option>
+        <option value="BD">Bangladesh</option>
+        <option value="PK">Pakistan</option>
+        <option value="TR">Turkey</option>
+        <option value="MX">Mexico</option>
+        <option value="RU">Russia</option>
+        <option value="KR">South Korea</option>
+        <option value="ID">Indonesia</option>
+        <option value="TH">Thailand</option>
+        <option value="VN">Vietnam</option>
+        <option value="SA">Saudi Arabia</option>
+        <option value="AE">UAE</option>
+        <option value="NG">Nigeria</option>
+        <option value="ZA">South Africa</option>
+      </select>
+      <div class="popup-actions">
+        <button type="button" class="popup-btn popup-btn-secondary" data-close>Cancel</button>
+        <button type="button" class="popup-btn popup-btn-primary" id="countryApplyBtn">Apply</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- I am (identity) popup -->
+  <div id="iamPopup" class="deck-popup" style="display:none;">
+    <div class="popup-card">
+      <button type="button" class="popup-close" data-close title="Close">&times;</button>
+      <h3><i class="bi bi-person"></i> I am / Looking for</h3>
+      <p>Tell strangers how you identify and who you'd like to meet. Filters are optional.</p>
+      <label class="popup-label">I am</label>
+      <div class="chip-row" id="iamChips">
+        <button type="button" class="identity-chip" data-identity="male"><i class="bi bi-gender-male"></i> Male</button>
+        <button type="button" class="identity-chip" data-identity="female"><i class="bi bi-gender-female"></i> Female</button>
+        <button type="button" class="identity-chip" data-identity="couple"><i class="bi bi-people-fill"></i> Couple</button>
+        <button type="button" class="identity-chip" data-identity="nonbinary"><i class="bi bi-gender-ambiguous"></i> Non-binary</button>
+      </div>
+      <label class="popup-label">Looking for</label>
+      <div class="chip-row" id="lookingChips">
+        <button type="button" class="identity-chip" data-looking="anyone">Anyone</button>
+        <button type="button" class="identity-chip" data-looking="male">Male</button>
+        <button type="button" class="identity-chip" data-looking="female">Female</button>
+        <button type="button" class="identity-chip" data-looking="couple">Couple</button>
+      </div>
+      <div class="popup-actions">
+        <button type="button" class="popup-btn popup-btn-secondary" data-close>Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Premium upsell popup -->
+  <div id="premiumPopup" class="deck-popup" style="display:none;">
+    <div class="popup-card popup-card-wide">
+      <button type="button" class="popup-close" data-close title="Close">&times;</button>
+      <h3><i class="bi bi-crown-fill"></i> Go Premium</h3>
+      <p>Unlock the full ChatSphere experience and skip the queue.</p>
+      <ul class="premium-list">
+        <li><i class="bi bi-check-circle-fill"></i> <strong>Priority matchmaking</strong> — jump to the front of the queue, every time.</li>
+        <li><i class="bi bi-check-circle-fill"></i> <strong>Country + gender filters</strong> — meet exactly who you want.</li>
+        <li><i class="bi bi-check-circle-fill"></i> <strong>Ad-free experience</strong> — no banners, no popups.</li>
+        <li><i class="bi bi-check-circle-fill"></i> <strong>Unlimited skips</strong> — no rate limits, no cooldowns.</li>
+        <li><i class="bi bi-check-circle-fill"></i> <strong>HD video</strong> — 720p+ streams with priority TURN relay.</li>
+        <li><i class="bi bi-check-circle-fill"></i> <strong>Verified badge</strong> — stand out as a real, trusted user.</li>
+      </ul>
+      <div class="premium-pricing">
+        <div class="price-card">
+          <div class="price-name">Monthly</div>
+          <div class="price-amount">$9.99<small>/mo</small></div>
+        </div>
+        <div class="price-card price-card-featured">
+          <div class="price-badge">Best value</div>
+          <div class="price-name">Yearly</div>
+          <div class="price-amount">$59<small>/yr</small></div>
+          <div class="price-note">($4.99/mo — save 50%)</div>
+        </div>
+      </div>
+      <div class="popup-actions">
+        <button type="button" class="popup-btn popup-btn-secondary" data-close>Maybe later</button>
+        <button type="button" class="popup-btn popup-btn-primary" id="premiumCtaBtn" onclick="alert('Premium checkout coming soon!')">Get Premium</button>
+      </div>
+      <p class="popup-foot">Cancel anytime. Adults only (18+). <a href="tos.html">Terms</a> apply.</p>
+    </div>
+  </div>
+
+  <!-- Settings drawer popup -->
+  <div id="settingsPopup" class="deck-popup" style="display:none;">
+    <div class="popup-card popup-card-wide">
+      <button type="button" class="popup-close" data-close title="Close">&times;</button>
+      <h3><i class="bi bi-gear"></i> Settings</h3>
+
+      <div class="settings-section">
+        <div class="settings-row">
+          <div>
+            <div class="settings-label">Dark mode</div>
+            <div class="settings-hint">Switch between light and dark themes.</div>
+          </div>
+          <label class="switch">
+            <input type="checkbox" id="settingsThemeToggle" />
+            <span class="switch-track"><span class="switch-thumb"></span></span>
+          </label>
+        </div>
+
+        <div class="settings-row">
+          <div>
+            <div class="settings-label">Auto-next</div>
+            <div class="settings-hint">Automatically skip to a new stranger when the current one leaves.</div>
+          </div>
+          <label class="switch">
+            <input type="checkbox" id="settingsAutoNext" />
+            <span class="switch-track"><span class="switch-thumb"></span></span>
+          </label>
+        </div>
+
+        <div class="settings-row">
+          <div>
+            <div class="settings-label">Auto-message</div>
+            <div class="settings-hint">Send this message automatically when you connect with a new stranger.</div>
+          </div>
+          <label class="switch">
+            <input type="checkbox" id="settingsAutoMessage" />
+            <span class="switch-track"><span class="switch-thumb"></span></span>
+          </label>
+        </div>
+        <input id="settingsAutoMessageText" type="text" class="settings-input" placeholder="Auto message text..." autocomplete="off" />
+
+        <div class="settings-row">
+          <div>
+            <div class="settings-label">Camera on by default</div>
+            <div class="settings-hint">Turn your camera on automatically when starting a chat.</div>
+          </div>
+          <label class="switch">
+            <input type="checkbox" id="settingsCameraDefault" checked />
+            <span class="switch-track"><span class="switch-thumb"></span></span>
+          </label>
+        </div>
+
+        <div class="settings-row">
+          <div>
+            <div class="settings-label">Mic on by default</div>
+            <div class="settings-hint">Unmute your microphone automatically when starting a chat.</div>
+          </div>
+          <label class="switch">
+            <input type="checkbox" id="settingsMicDefault" checked />
+            <span class="switch-track"><span class="switch-thumb"></span></span>
+          </label>
+        </div>
+      </div>
+
+      <div class="popup-actions">
+        <button type="button" class="popup-btn popup-btn-secondary" data-close>Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Socket.IO client + chat app -->
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="chat-app/script.js?v=working8"></script>
+  <script>
+    // Hide the "your camera will appear here" empty state once local stream arrives.
+    document.addEventListener('DOMContentLoaded', () => {
+      const remoteVideo = document.getElementById('remoteVideo');
+      const remoteEmpty = document.getElementById('remoteTileEmpty');
+      const localVideo = document.getElementById('localVideo');
+      const localEmpty = document.getElementById('localTileEmpty');
+
+      if (remoteVideo) {
+        remoteVideo.addEventListener('loadedmetadata', () => {
+          if (remoteEmpty) remoteEmpty.style.display = 'none';
+        });
+      }
+      // Poll localVideo.srcObject since script.js sets it asynchronously after Start click.
+      const checkLocal = setInterval(() => {
+        if (remoteVideo && remoteVideo.srcObject && remoteEmpty) {
+          remoteEmpty.style.display = 'none';
+        }
+        if (localVideo && localVideo.srcObject && localEmpty) {
+          localEmpty.style.display = 'none';
+          clearInterval(checkLocal);
+        }
+      }, 400);
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,1000 @@
+/* ============================================
+   Video2 Mobile - Responsive Stylesheet
+   ============================================ */
+
+@media (max-width: 800px) {
+  /* Prevent scrolling on body */
+  html, body {
+    height: 100%;
+    height: 100dvh; /* Use dynamic viewport height for mobile browsers */
+    overflow: hidden;
+    touch-action: none;
+    position: relative;
+  }
+
+  /* Hide device labels on mobile views (phones only, not tablets) */
+  @media (max-width: 767px) {
+    .device-label,
+    #local-webcam-label,
+    #local-microphone-label {
+      display: none !important;
+    }
+  }
+}
+
+/* Tablet/iPad specific styles - show labels on touch */
+@media (min-width: 768px) and (max-width: 1024px) and (hover: none) and (pointer: coarse) {
+  /* Show device labels on tablet when local settings overlay is active */
+  #self:active .device-label,
+  #self:active #local-webcam-label,
+  #self:active #local-microphone-label,
+  #self .local-settings-overlay:active .device-label,
+  #self .local-settings-overlay:active #local-webcam-label,
+  #self .local-settings-overlay:active #local-microphone-label,
+  #self .local-settings-overlay.show-overlay .device-label,
+  #self .local-settings-overlay.show-overlay #local-webcam-label,
+  #self .local-settings-overlay.show-overlay #local-microphone-label {
+    display: block !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+  }
+  
+  /* Show local settings overlay on touch for tablets */
+  #self:active .local-settings-overlay,
+  #self .local-settings-overlay.show-overlay {
+    opacity: 1 !important;
+    pointer-events: auto;
+    background-color: var(--bg-overlay) !important;
+  }
+  
+  /* Show webcam label on touch for peer video on tablets */
+  #peer:active .webcam-label-container,
+  #peer .webcam-label-container.show-overlay {
+    opacity: 1 !important;
+    pointer-events: auto;
+  }
+}
+
+@media (max-width: 800px) {
+
+  .local-settings-overlay {
+    /* Show labels and gear on touch down */
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: var(--spacing-sm);
+    /* On mobile, keep overlay transparent so it doesn't darken the video */
+    background-color: transparent !important;
+    opacity: 0;
+    pointer-events: auto;
+    transition: opacity 0.2s ease;
+  }
+  
+  /* Show overlay on touch down or when show-overlay class is present for mobile */
+  #self:active .local-settings-overlay,
+  .local-settings-overlay:active,
+  .local-settings-overlay.show-overlay {
+    opacity: 1 !important;
+    pointer-events: auto;
+    visibility: visible !important;
+  }
+
+  /* On mobile: gear and labels are hidden by default, shown when overlay is active */
+  .control-btn-settings,
+  #device-settings-btn {
+    margin-top: var(--spacing-sm);
+    margin-bottom: 0;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    transition: opacity 0.2s ease, visibility 0.2s ease;
+    /* Ensure proper touch target size for mobile */
+    min-width: 44px;
+    min-height: 44px;
+    width: 44px;
+    height: 44px;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    z-index: calc(var(--z-base) + 10);
+    pointer-events: auto !important;
+    touch-action: manipulation;
+    /* Override desktop positioning - use static on mobile */
+    position: static !important;
+    bottom: auto !important;
+    right: auto !important;
+  }
+
+  /* Show device labels when overlay is shown on mobile */
+  .local-settings-overlay.show-overlay .device-label,
+  .local-settings-overlay.show-overlay #local-webcam-label,
+  .local-settings-overlay.show-overlay #local-microphone-label,
+  #self:active .device-label,
+  #self:active #local-webcam-label,
+  #self:active #local-microphone-label,
+  .local-settings-overlay:active .device-label,
+  .local-settings-overlay:active #local-webcam-label,
+  .local-settings-overlay:active #local-microphone-label {
+    display: block !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+  }
+
+  /* Show gear icon when overlay is shown or active on mobile */
+  .local-settings-overlay.show-overlay .control-btn-settings,
+  #self:active .control-btn-settings,
+  .local-settings-overlay:active .control-btn-settings {
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+  }
+  
+  /* Ensure gear icon is clickable and has proper styling on mobile */
+  .local-settings-overlay.show-overlay .control-btn-settings svg,
+  #self:active .control-btn-settings svg {
+    width: 24px;
+    height: 24px;
+    color: white;
+    stroke: white;
+    pointer-events: none; /* Let parent handle clicks */
+  }
+
+  /* Main Container - Stack vertically on mobile (video layout) */
+  #main.app-container {
+    grid-template-rows: 60px auto minmax(0, 1fr);
+    grid-template-columns: 100%;
+    grid-template-areas:
+      'header'
+      'videos'
+      'messages';
+    height: 100vh;
+    height: 100dvh; /* Use dynamic viewport height for mobile browsers */
+    max-height: 100vh;
+    max-height: 100dvh;
+    overflow: hidden;
+    /* Account for fixed input area at bottom */
+    padding-bottom: 0;
+  }
+
+  /* Chat-only layout: no videos row, let messages fill all space below header */
+  #main.app-container.chat-layout {
+    grid-template-rows: 60px minmax(0, 1fr);
+    grid-template-columns: 100%;
+    grid-template-areas:
+      'header'
+      'messages';
+  }
+
+
+  /* Header - Smaller on mobile */
+  #top-bar.app-header {
+    height: 60px;
+    min-height: 60px;
+    padding: var(--spacing-sm) var(--spacing-md);
+    /* Keep a consistent compact "top marquee" thickness across breakpoints. */
+    padding-top: 0.2em;
+    padding-bottom: 0.2em;
+  }
+
+  .logo-image {
+    max-height: 40px;
+  }
+
+  .header-controls {
+    gap: var(--spacing-sm);
+  }
+
+  .online-text {
+    font-size: var(--font-size-sm);
+    padding: var(--spacing-xs) var(--spacing-sm);
+  }
+
+  .button-feedback {
+    display: none;
+  }
+
+  /* Video Section - Peer as main feed, self as overlay box */
+  #videos.video-section {
+    grid-area: videos;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    margin: var(--spacing-sm);
+    height: 50vh; /* Increased by another 20% from 42vh (42 * 1.2 = 50.4, rounded down to 50) */
+    min-height: 200px;
+    overflow: hidden;
+  }
+
+  /* Peer video - Main large feed */
+  .video-container-peer {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background-color: var(--bg-dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--border-radius);
+  }
+  
+  /* Show webcam label on touch down for peer video on mobile */
+  #peer:active .webcam-label-container,
+  #peer .webcam-label-container.show-overlay {
+    opacity: 1 !important;
+    pointer-events: auto;
+  }
+
+  .video-container-peer .video-player-peer {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* Self video - Small overlay box in bottom right */
+  .video-container-self {
+    position: absolute;
+    width: 20%;
+    height: 20%;
+    bottom: var(--spacing-sm);
+    right: var(--spacing-sm);
+    z-index: 10;
+    border-radius: var(--border-radius-sm);
+    overflow: hidden;
+    background-color: var(--peer-feed-dark-blue);
+    /* Disable dragging on regular mobile - only enable on smallest screens */
+    touch-action: auto;
+    -webkit-user-select: auto;
+    -moz-user-select: auto;
+    user-select: auto;
+    -webkit-touch-callout: default;
+    box-shadow: var(--shadow-lg);
+  }
+
+  /* When #self is promoted to a fixed floating layer (video.js), keep gear visible/tappable */
+  #self.self-mobile-floating .local-settings-overlay {
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+    background-color: transparent !important;
+  }
+
+  #self.self-mobile-floating #device-settings-btn {
+    /* Hidden by default on mobile until user taps the self view */
+    opacity: 0 !important;
+    visibility: hidden !important;
+    position: absolute !important;
+    top: 6px;
+    right: 6px;
+    margin: 0 !important;
+    min-width: 44px;
+    min-height: 44px;
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: rgba(0, 0, 0, 0.35);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+  }
+
+  /* Reveal gear only after user taps self (video.js adds this class briefly) */
+  #self.self-mobile-floating.mobile-controls-visible #device-settings-btn {
+    opacity: 1 !important;
+    visibility: visible !important;
+  }
+
+  .video-container-self .video-player-self {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* Video controls on peer video */
+  .video-container-peer .video-controls {
+    top: var(--spacing-sm);
+    right: var(--spacing-sm);
+  }
+
+  .control-btn {
+    width: 44px;
+    height: 44px;
+    /* Larger touch target for mobile */
+  }
+
+  .control-btn svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .watermark {
+    width: 25%;
+    left: var(--spacing-sm);
+    bottom: var(--spacing-sm);
+  }
+
+  /* Self video - ensure video doesn't interfere with dragging on smallest screens only */
+  .video-container-self .video-player-self {
+    touch-action: auto;
+    pointer-events: auto;
+  }
+
+  /* Self video overlay - allow interaction */
+  .video-container-self .local-settings-overlay {
+    pointer-events: auto;
+    /* Allow our JS drag/resize logic to fully control touch gestures */
+    touch-action: none;
+  }
+
+  /* Keep settings button clickable on mobile */
+  .video-container-self .control-btn-settings,
+  .local-settings-overlay .control-btn-settings {
+    pointer-events: auto !important;
+    touch-action: manipulation;
+    cursor: pointer;
+    -webkit-tap-highlight-color: rgba(255, 255, 255, 0.3);
+  }
+  
+  /* Prevent button from being blocked by overlay */
+  .local-settings-overlay.show-overlay .control-btn-settings {
+    position: relative;
+    z-index: calc(var(--z-base) + 10);
+  }
+
+  /* Special mobile device settings modal (bottom sheet) */
+  #device-selection-modal.modal-device.mobile-device-modal {
+    /* Center in viewport on mobile (not a bottom sheet) */
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 12px;
+    background: rgba(0, 0, 0, 0.35) !important;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+
+  #device-selection-modal.modal-device.mobile-device-modal .modal-content.device-modal {
+    width: min(560px, calc(100vw - 24px)) !important;
+    max-width: min(560px, calc(100vw - 24px)) !important;
+    max-height: calc(100dvh - 24px) !important;
+    border-radius: 18px !important;
+    padding: 12px 12px calc(12px + env(safe-area-inset-bottom, 0px)) 12px !important;
+    overflow: hidden !important;
+    /* Opaque so the local video cannot visually show through */
+    background: var(--bg-primary) !important;
+    border: 1px solid var(--border-color) !important;
+    box-shadow: 0 18px 55px rgba(0, 0, 0, 0.55) !important;
+    color: var(--text-primary);
+  }
+
+  #device-selection-modal.modal-device.mobile-device-modal .modal-header {
+    /* legacy (v1) */
+    display: none !important;
+  }
+
+  /* Compact typography for mobile modal */
+  /* v2 header */
+  #device-selection-modal.modal-device.mobile-device-modal .deviceModalHeader{
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    /* Light-mode friendly: avoid dark tint behind title */
+    background: rgba(255, 255, 255, 0.78);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border-color);
+    margin-bottom: 10px;
+  }
+  [data-theme="dark"] #device-selection-modal.modal-device.mobile-device-modal .deviceModalHeader,
+  body.dark-mode #device-selection-modal.modal-device.mobile-device-modal .deviceModalHeader{
+    background: rgba(20, 24, 32, 0.35);
+    border-bottom: 1px solid rgba(255,255,255,0.10);
+  }
+  #device-selection-modal.modal-device.mobile-device-modal .deviceModalTitle h2{
+    font-size: 18px !important;
+  }
+
+  #device-selection-modal.modal-device.mobile-device-modal h3 {
+    margin: 10px 0 8px 0 !important;
+    font-size: 14px !important;
+    color: rgba(255, 255, 255, 0.92) !important;
+    border-bottom-color: rgba(255, 255, 255, 0.10) !important;
+  }
+
+  #device-selection-modal.modal-device.mobile-device-modal #device-modal-close{
+    width: 42px !important;
+    height: 42px !important;
+    font-size: 18px !important;
+  }
+
+  #device-selection-modal.modal-device.mobile-device-modal .deviceModalBody{
+    max-height: calc(100dvh - 24px - 120px) !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  #device-selection-modal.modal-device.mobile-device-modal .deviceCard{
+    border-radius: 16px !important;
+    padding: 12px !important;
+  }
+  #device-selection-modal.modal-device.mobile-device-modal .deviceSelect{
+    font-size: 15px !important;
+    padding: 12px 12px !important;
+  }
+
+  #device-selection-modal.modal-device.mobile-device-modal .modal-footer {
+    display: none !important; /* no Save/Close buttons on mobile */
+  }
+
+  /* Message Section - Full width on mobile */
+  #message-area.message-section {
+    grid-area: messages;
+    border-top: 1px solid var(--border-color);
+    min-height: 0;
+    max-height: 100%;
+    /* Don't add static bottom padding; messages-container padding handles fixed input spacing */
+    padding-bottom: 0;
+    box-sizing: border-box;
+  }
+
+  #message-area .messages-container {
+    /* Give a bit of top breathing room under the header on mobile */
+    /* IMPORTANT: Input bar is fixed on mobile; add bottom padding to the SCROLLING container
+       so the last messages + controls never sit behind the input/upload buttons. */
+    /* More compact message padding on mobile to maximize visible chat */
+    padding: 5px 5px calc(var(--messages-bottom-inset, 96px) + env(safe-area-inset-bottom)) 5px !important;
+    scroll-padding-bottom: calc(var(--messages-bottom-inset, 96px) + env(safe-area-inset-bottom));
+    /* Chat-style: keep short chats at the bottom near the input */
+    justify-content: flex-end;
+  }
+
+  #connectStatus.connect-status {
+    margin: 0 5px 4px;
+    max-width: calc(100% - 10px);
+    font-size: 12px;
+    padding: 7px 10px;
+  }
+
+  .disconnected-overlay-copy {
+    max-width: min(88%, 340px);
+    gap: 4px;
+    padding: 10px 12px;
+  }
+
+  .disconnected-subtext {
+    font-size: 11px;
+  }
+
+  .video-loader,
+  #peer-video-loader {
+    --peer-loader-size: clamp(48px, 20vmin, 82px);
+    --peer-loader-radius: clamp(24px, 10vmin, 41px);
+  }
+
+  .video-loader-text,
+  #peer-video-loader-text {
+    --peer-loader-size: clamp(48px, 20vmin, 82px);
+    --peer-loader-radius: clamp(24px, 10vmin, 41px);
+    top: min(calc(50% + var(--peer-loader-radius) + 12px), calc(100% - 52px));
+    font-size: 11px;
+    padding: 5px 8px;
+    max-width: 80%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* Anchor messages to bottom on mobile when requested by JS (disconnect UX) */
+  #message-area #messages.messages-anchor-bottom {
+    justify-content: flex-end !important;
+  }
+
+  #message-area #messages.messages-terminal-state {
+    justify-content: flex-start !important;
+  }
+
+  .message {
+    max-width: 85%;
+    font-size: var(--font-size-sm);
+  }
+
+  .message.message-system.message-system-terminal,
+  .message-system.message-system-terminal {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: calc(50% - ((var(--messages-bottom-inset, 96px) + env(safe-area-inset-bottom)) / 2));
+    transform: translateY(-50%);
+    margin: 0 !important;
+    padding: 0 0 18px;
+    z-index: 2;
+  }
+
+  .message.message-system.message-system-terminal .system,
+  .message-system.message-system-terminal .system {
+    width: min(286px, calc(100% - 40px)) !important;
+    padding: 16px 14px !important;
+    font-size: 15px !important;
+    line-height: 1.4 !important;
+  }
+
+  #message-area .inline-error-bar {
+    position: absolute;
+    left: 10px;
+    right: 10px;
+    bottom: calc(var(--messages-bottom-inset, 96px) + env(safe-area-inset-bottom) - 4px);
+    margin: 0 !important;
+    max-width: none;
+    z-index: 4;
+  }
+
+  /* Input Section - Fixed at bottom */
+  #input-area.input-section {
+    position: fixed !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    grid-area: unset;
+    /* Keep spacing consistent with desktop tuning */
+    padding: 5px;
+    padding-bottom: max(5px, env(safe-area-inset-bottom));
+    gap: 5px;
+    z-index: var(--z-sticky);
+    border-top: 1px solid var(--border-color);
+    background-color: var(--bg-primary);
+    box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
+    width: 100% !important;
+    transform: none !important;
+    will-change: auto !important;
+  }
+
+  .input-wrapper {
+    padding: 0;
+    height: 56px;
+  }
+
+  /* Make input and Skip button the same height on small screens */
+  .message-input {
+    font-size: 16px;
+    padding: 0 12px;
+    line-height: 1.2;
+    height: 56px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+  }
+
+  .button-skip,
+  .button-send {
+    min-width: 90px;
+    padding: 0 16px;
+    font-size: 16px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .button-send {
+    display: none; /* Hide send button on mobile, use Enter key */
+  }
+
+  .keyboard-hint {
+    display: none; /* Hide keyboard hints on mobile */
+  }
+
+  /* Modals - Full screen on mobile */
+  .modal-content {
+    max-width: 100%;
+    max-height: 100vh;
+    border-radius: 0;
+    padding: var(--spacing-lg);
+  }
+
+  #reportModal {
+    align-items: flex-end;
+  }
+
+  #reportModal .report-modal-card {
+    width: 100%;
+    max-width: 100%;
+    max-height: min(90vh, 720px);
+    border-radius: 26px 26px 0 0;
+    padding: 20px 16px 18px;
+  }
+
+  #reportModal .report-modal-top {
+    gap: 12px;
+    padding-right: 40px;
+  }
+
+  #reportModal .report-modal-mark {
+    width: 44px;
+    height: 44px;
+    border-radius: 14px;
+  }
+
+  #reportModal .report-modal-heading h2 {
+    font-size: 24px;
+  }
+
+  #reportModal .report-form-actions {
+    flex-direction: column-reverse;
+  }
+
+  #reportModal .report-form-actions .button {
+    width: 100%;
+  }
+
+  .modal-device .device-modal {
+    max-width: 100%;
+  }
+
+  /* Audio Popup - Bottom on mobile */
+  .audio-popup {
+    bottom: 80px; /* Above input area */
+    right: var(--spacing-md);
+    left: var(--spacing-md);
+    width: auto;
+  }
+
+  .audio-popup-content {
+    min-width: auto;
+    width: 100%;
+  }
+
+  /* Upload Toast - Adjusted for mobile */
+  .upload-toast {
+    left: var(--spacing-md);
+    right: var(--spacing-md);
+    transform: none;
+    width: auto;
+  }
+
+  /* Theme Toggle - Smaller on mobile */
+  .theme-toggle-small {
+    width: 45px;
+    height: 22px;
+  }
+
+  .toggle-slider-small:before {
+    width: 18px;
+    height: 18px;
+  }
+
+  .theme-toggle-input:checked + .toggle-slider-small:before {
+    transform: translateX(23px);
+  }
+
+  .toggle-icon {
+    font-size: var(--font-size-xs);
+  }
+}
+
+/* Smaller mobile devices - iPhone smallest view */
+@media (max-width: 480px) {
+  #top-bar.app-header {
+    padding: var(--spacing-xs) var(--spacing-sm);
+    /* Keep a consistent compact "top marquee" thickness across breakpoints. */
+    padding-top: 0.2em;
+    padding-bottom: 0.2em;
+  }
+
+  .logo-image {
+    max-height: 35px;
+  }
+
+  .online-text {
+    font-size: var(--font-size-xs);
+    padding: var(--spacing-xs);
+  }
+
+  #videos.video-section {
+    height: 43vh; /* Increased by another 20% from 36vh (36 * 1.2 = 43.2, rounded down to 43) */
+    min-height: 180px;
+  }
+
+  .control-btn {
+    width: 40px;
+    height: 40px;
+  }
+
+  .control-btn svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  /* Self video slightly smaller on very small screens */
+  .video-container-self {
+    width: 25%;
+    height: 25%;
+    /* Enable dragging ONLY on smallest iPhone view */
+    touch-action: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+    -webkit-touch-callout: none;
+  }
+
+  /* Enable dragging for self video on smallest screens only */
+  .video-container-self .video-player-self {
+    touch-action: none;
+    pointer-events: none;
+  }
+
+  .video-container-self .local-settings-overlay {
+    pointer-events: auto;
+    touch-action: none;
+  }
+
+  /* Hide device labels on smallest iPhone view (draggable view) - ONLY show gear icon */
+  .device-label,
+  #local-webcam-label,
+  #local-microphone-label {
+    display: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+  }
+  
+  /* Keep labels hidden even when overlay is shown on smallest screens */
+  .local-settings-overlay.show-overlay .device-label,
+  .local-settings-overlay.show-overlay #local-webcam-label,
+  .local-settings-overlay.show-overlay #local-microphone-label,
+  #self:active .device-label,
+  #self:active #local-webcam-label,
+  #self:active #local-microphone-label,
+  .local-settings-overlay:active .device-label,
+  .local-settings-overlay:active #local-webcam-label,
+  .local-settings-overlay:active #local-microphone-label {
+    display: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+  }
+
+  .local-settings-overlay {
+    /* Only show settings button, hide labels */
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 0;
+  }
+
+  /* Hide gear by default on smallest screens, show on touch */
+  .control-btn-settings,
+  #device-settings-btn {
+    margin-top: 0;
+    margin-bottom: 0;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    /* Ensure no duplicate positioning from desktop styles */
+    position: static !important;
+    bottom: auto !important;
+    right: auto !important;
+    top: auto !important;
+    left: auto !important;
+  }
+  
+  /* Hide desktop-positioned gear icon (absolute positioned) on smallest screens */
+  .video-container-self .control-btn-settings[style*="position: absolute"],
+  #self .control-btn-settings[style*="position: absolute"],
+  .video-container-self #device-settings-btn[style*="position: absolute"],
+  #self #device-settings-btn[style*="position: absolute"] {
+    display: none !important;
+  }
+  
+  /* More specific: Hide any gear icon that's absolutely positioned (desktop style) */
+  .video-container-self > .control-btn-settings,
+  #self > .control-btn-settings,
+  .video-container-self > #device-settings-btn,
+  #self > #device-settings-btn {
+    display: none !important;
+  }
+  
+  /* Show gear button when overlay is shown on smallest screens */
+  /* Only show the one inside the overlay */
+  .local-settings-overlay.show-overlay .control-btn-settings,
+  .local-settings-overlay.show-overlay #device-settings-btn,
+  #self:active .local-settings-overlay .control-btn-settings,
+  #self:active .local-settings-overlay #device-settings-btn,
+  .local-settings-overlay:active .control-btn-settings,
+  .local-settings-overlay:active #device-settings-btn {
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+    position: static !important;
+    display: flex !important;
+  }
+
+  /* Make message area more compact on smallest screens */
+  #message-area.message-section {
+    padding-bottom: 0; /* messages-container handles bottom inset */
+  }
+
+  #message-area .messages-container {
+    /* Keep some top padding even on the smallest screens */
+    padding: 5px 5px calc(var(--messages-bottom-inset, 96px) + env(safe-area-inset-bottom)) 5px !important;
+    scroll-padding-bottom: calc(var(--messages-bottom-inset, 96px) + env(safe-area-inset-bottom));
+    gap: 1px !important; /* Even smaller spacing between messages */
+  }
+
+  .message {
+    font-size: 17px !important; /* A few px bigger */
+    line-height: 1.4 !important; /* Better line height */
+    letter-spacing: -0.1px !important; /* Slightly tighter letter spacing */
+    max-width: 90% !important; /* Allow slightly more width */
+    margin-bottom: 1px !important; /* Even smaller margin */
+  }
+
+  .message .you,
+  .message .strange {
+    font-size: 16px !important; /* A few px bigger for labels */
+    font-weight: 600 !important; /* Slightly bolder but compact */
+    line-height: 1.3 !important;
+  }
+
+  .message-status {
+    font-size: 15px !important; /* A few px bigger status messages */
+    line-height: 1.4 !important;
+    padding: 1px 0 !important; /* Minimal padding */
+    margin-bottom: 1px !important; /* Even smaller margin - minimal gaps */
+    margin-top: 0 !important; /* No top margin */
+  }
+
+  .message-status.slide-in {
+    margin-bottom: 2px !important; /* Very small gap after slide-in message */
+  }
+  
+  /* Remove any large gaps between status messages */
+  .message-status + .message-status {
+    margin-top: 0 !important;
+    margin-bottom: 1px !important;
+  }
+
+  .button-skip {
+    min-width: 72px;
+    padding: 0 var(--spacing-sm);
+    font-size: 14px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .message-input {
+    font-size: 16px;
+    line-height: 1.2;
+    height: 48px;
+  }
+}
+
+/* Landscape orientation on mobile */
+@media (max-width: 800px) and (orientation: landscape) {
+  #videos.video-section {
+    height: 40vh;
+  }
+
+  #input-area.input-section {
+    padding: var(--spacing-xs) var(--spacing-sm);
+  }
+}
+
+/* Touch device optimizations */
+@media (hover: none) and (pointer: coarse) {
+  .control-btn,
+  .button {
+    min-height: 44px; /* Minimum touch target size */
+  }
+
+  .close {
+    min-width: 44px;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* On phones (small screens), keep overlay transparent and labels hidden */
+  @media (max-width: 767px) {
+    .local-settings-overlay {
+      opacity: 1; /* Always show on touch devices */
+      pointer-events: auto;
+    }
+
+    #self:hover .local-settings-overlay {
+      opacity: 1; /* No hover state on touch */
+    }
+  }
+  
+  /* On tablets/iPad (768px-1024px), show overlay and labels on touch */
+  @media (min-width: 768px) and (max-width: 1024px) {
+    .local-settings-overlay {
+      opacity: 0; /* Hidden by default */
+      pointer-events: auto;
+      background-color: var(--bg-overlay) !important;
+    }
+    
+    .local-settings-overlay.show-overlay {
+      opacity: 1 !important;
+      background-color: var(--bg-overlay) !important;
+    }
+    
+    /* Show device labels when overlay is shown on tablets - override mobile hide rule */
+    .local-settings-overlay.show-overlay .device-label,
+    .local-settings-overlay.show-overlay #local-webcam-label,
+    .local-settings-overlay.show-overlay #local-microphone-label,
+    #self:active .local-settings-overlay .device-label,
+    #self:active .local-settings-overlay #local-webcam-label,
+    #self:active .local-settings-overlay #local-microphone-label {
+      display: block !important;
+      opacity: 1 !important;
+      visibility: visible !important;
+    }
+  }
+}
+
+/* iPhone/Safari landscape can be wider than 800 CSS px. Keep the page in
+   phone video layout so the local preview does not jump into desktop sizing. */
+@media (hover: none) and (pointer: coarse) and (max-height: 500px) and (max-width: 1024px) {
+  #main.app-container {
+    grid-template-rows: 60px auto minmax(0, 1fr);
+    grid-template-columns: 100%;
+    grid-template-areas:
+      'header'
+      'videos'
+      'messages';
+    height: 100vh;
+    height: 100dvh;
+    max-height: 100vh;
+    max-height: 100dvh;
+    overflow: hidden;
+  }
+
+  #top-bar.app-header {
+    height: 60px;
+    min-height: 60px;
+    padding: 0.2em var(--spacing-md);
+  }
+
+  #videos.video-section {
+    grid-area: videos;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    margin: var(--spacing-sm);
+    height: 40vh;
+    min-height: 150px;
+    overflow: hidden;
+  }
+
+  .video-container-peer {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: var(--border-radius);
+  }
+
+  .video-container-peer .video-player-peer,
+  .video-container-self .video-player-self {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .video-container-self {
+    position: absolute;
+    width: 128px;
+    height: 96px;
+    right: var(--spacing-sm);
+    bottom: var(--spacing-sm);
+    z-index: 10;
+    border-radius: var(--border-radius-sm);
+    overflow: hidden;
+    background-color: var(--peer-feed-dark-blue);
+    box-shadow: var(--shadow-lg);
+    touch-action: none;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+  }
+
+  .video-container-self .video-player-self {
+    pointer-events: none;
+    touch-action: none;
+  }
+}

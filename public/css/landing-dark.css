@@ -1,0 +1,437 @@
+/* ==========================================================================
+   ChatSphere landing page — dark theme overrides
+   Activated when body has .dark-mode (set by chat-app/theme.js, which shares
+   the same 'ChatSphere_theme' localStorage key as the chat + video pages, so the
+   choice follows the user across the whole site).
+
+   Strategy: re-map the CSS custom properties that landing-v25ad4.css already
+   uses (--ink, --muted, --line, --bg, --card, ...), then override the few
+   hardcoded light values (white gradients, #fbfdff panels, #17324d texts).
+   ========================================================================== */
+
+/* ---------- 1. The toggle button itself (all themes) ---------- */
+
+.landing-theme-toggle {
+  flex: 0 0 auto;
+  width: 40px;
+  height: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(1, 127, 254, 0.14);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.72);
+  color: #17324d;
+  font-size: 16px;
+  cursor: pointer;
+  box-shadow: none;
+  transition: border-color 0.16s ease, background 0.16s ease, color 0.16s ease,
+              transform 0.16s ease;
+}
+.landing-theme-toggle:hover,
+.landing-theme-toggle:focus-visible {
+  border-color: rgba(1, 127, 254, 0.22);
+  background: rgba(1, 127, 254, 0.08);
+  color: var(--blue, #017ffe);
+  transform: translateY(-1px);
+  outline: none;
+}
+/* Sun icon shown while dark mode is active (theme.js swaps it) */
+body.dark-mode .landing-theme-toggle { color: #ffd76b; }
+
+@media (max-width: 430px) {
+  .landing-theme-toggle { width: 36px; height: 36px; font-size: 14px; }
+}
+
+/* ---------- 2. Dark palette — re-map the custom properties ---------- */
+
+body.index-page.dark-mode {
+  --blue: #3d9bff;
+  --blue-deep: #62b0ff;
+  --sky: #2c98ff;
+  --ink: #e8eef5;
+  --muted: #9db0c3;
+  --line: rgba(255, 255, 255, 0.10);
+  --line-strong: rgba(255, 255, 255, 0.16);
+  --bg: #0b1220;
+  --card: #121a29;
+  --green: #2fd17a;
+  --mint: #2fd17a;
+  --soft-blue: rgba(61, 155, 255, 0.10);
+  --shadow-soft: 0 1px 2px rgba(0, 0, 0, 0.4), 0 16px 40px -28px rgba(0, 0, 0, 0.65);
+  --shadow-pop: 0 24px 62px -34px rgba(0, 0, 0, 0.8);
+  --ring: 0 0 0 4px rgba(61, 155, 255, 0.18);
+  background:
+    radial-gradient(780px 420px at 16% -8%, rgba(61, 155, 255, 0.07), transparent 70%),
+    radial-gradient(760px 400px at 86% -6%, rgba(47, 209, 122, 0.045), transparent 68%),
+    linear-gradient(180deg, #0d1524 0%, var(--bg) 48%, #0a101c 100%);
+  color: var(--ink);
+}
+
+body.index-page.dark-mode.duck-scrollbar {
+  background-color: #0b1220;
+}
+
+/* Smooth theme switch (same feel as the chat pages) */
+body.index-page,
+body.index-page #social-message,
+body.index-page #message-content,
+body.index-page .hero-focus,
+body.index-page .hero-cta-inner,
+body.index-page .duck-sticky,
+body.index-page .duck-header,
+body.index-page .feature-item,
+body.index-page .step,
+body.index-page .link-card,
+body.index-page .faq-item,
+body.index-page #footer {
+  transition: background-color 0.25s ease, border-color 0.25s ease, color 0.25s ease, box-shadow 0.25s ease;
+}
+
+/* ---------- 3. Sticky header ---------- */
+
+body.index-page.dark-mode .duck-sticky {
+  background: rgba(10, 16, 28, 0.92);
+  border-bottom-color: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
+}
+
+body.index-page.dark-mode .index-nav {
+  border-color: rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+body.index-page.dark-mode .index-nav a {
+  color: #c6d3e2;
+}
+
+body.index-page.dark-mode .index-nav a:hover,
+body.index-page.dark-mode .index-nav a:focus-visible {
+  color: var(--blue);
+  background: rgba(61, 155, 255, 0.12);
+}
+
+body.index-page.dark-mode .online-counter {
+  border-color: rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+body.index-page.dark-mode .online-counter:hover,
+body.index-page.dark-mode .online-counter:focus-visible {
+  border-color: rgba(61, 155, 255, 0.30);
+  background: rgba(61, 155, 255, 0.10);
+}
+
+body.index-page.dark-mode .online-text {
+  color: #c6d3e2;
+}
+
+body.index-page.dark-mode .online-number,
+body.index-page.dark-mode .online-plus,
+body.index-page.dark-mode .online-label {
+  color: var(--blue);
+}
+
+body.index-page.dark-mode .menu {
+  border-color: rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+body.index-page.dark-mode .menu:hover,
+body.index-page.dark-mode .menu:focus-visible {
+  border-color: rgba(61, 155, 255, 0.30);
+  background: rgba(61, 155, 255, 0.10);
+}
+
+body.index-page.dark-mode .menu span {
+  background: #c6d3e2;
+}
+
+/* Hamburger menu dropdown */
+body.index-page.dark-mode.duck-scrollbar .accordion {
+  border-color: rgba(255, 255, 255, 0.10);
+  background: rgba(18, 26, 41, 0.98);
+  box-shadow: 0 24px 60px -28px rgba(0, 0, 0, 0.7);
+}
+
+body.index-page.dark-mode.duck-scrollbar .accordion-header,
+body.index-page.dark-mode.duck-scrollbar .accordion-content a {
+  color: #c6d3e2;
+}
+
+body.index-page.dark-mode.duck-scrollbar .accordion-header:hover,
+body.index-page.dark-mode.duck-scrollbar .accordion-content a:hover {
+  color: var(--blue);
+  background: rgba(61, 155, 255, 0.10);
+}
+
+/* Online tooltip */
+body.index-page.dark-mode .online-details,
+body.index-page.dark-mode .top-locations {
+  background: #121a29;
+  border-color: rgba(255, 255, 255, 0.10);
+  color: var(--ink);
+}
+
+body.index-page.dark-mode .top-locations h4 {
+  color: var(--ink);
+}
+
+body.index-page.dark-mode .top-locations li {
+  color: var(--muted);
+  border-bottom-color: rgba(255, 255, 255, 0.07);
+}
+
+/* ---------- 4. Hero section ---------- */
+
+body.index-page.dark-mode .hero-focus {
+  border-color: rgba(255, 255, 255, 0.10);
+  background:
+    linear-gradient(180deg, rgba(18, 26, 41, 0.85), rgba(13, 21, 36, 0.7)),
+    rgba(13, 21, 36, 0.7);
+  box-shadow: 0 22px 62px -42px rgba(0, 0, 0, 0.85);
+}
+
+body.index-page.dark-mode .hero-kicker {
+  border-color: rgba(61, 155, 255, 0.25);
+  background: rgba(61, 155, 255, 0.08);
+  color: var(--blue);
+}
+
+body.index-page.dark-mode .hero-cta-inner {
+  border-color: rgba(255, 255, 255, 0.10);
+  background:
+    linear-gradient(180deg, rgba(18, 26, 41, 0.92), rgba(15, 22, 36, 0.86)),
+    rgba(15, 22, 36, 0.9);
+  box-shadow: 0 18px 48px -36px rgba(0, 0, 0, 0.9);
+}
+
+/* Blue CTA buttons keep their gradient but get a slightly deeper base */
+body.index-page.dark-mode .duck-start-video-chat,
+body.index-page.dark-mode .duck-start-video-chat.with-card {
+  background: linear-gradient(180deg, #2a8bff 0%, #0177f0 58%, #0160c4 100%);
+}
+
+body.index-page.dark-mode .hero-proof-grid > div {
+  background: rgba(255, 255, 255, 0.045);
+  border-color: rgba(255, 255, 255, 0.09);
+}
+
+body.index-page.dark-mode .hero-note {
+  color: var(--muted);
+}
+
+/* Age gate + interest input */
+body.index-page.dark-mode .age-gate-label,
+body.index-page.dark-mode .hero-interest input {
+  background: rgba(255, 255, 255, 0.045);
+  border-color: rgba(255, 255, 255, 0.12);
+  color: var(--ink);
+}
+
+body.index-page.dark-mode .age-gate-label:hover {
+  border-color: rgba(61, 155, 255, 0.30);
+  background: rgba(61, 155, 255, 0.07);
+}
+
+body.index-page.dark-mode .age-gate-title {
+  color: var(--ink);
+}
+
+body.index-page.dark-mode .age-gate-text {
+  color: var(--muted);
+}
+
+body.index-page.dark-mode .age-gate-text a {
+  color: var(--blue);
+}
+
+body.index-page.dark-mode .hero-interest input::placeholder {
+  color: var(--muted);
+}
+
+/* Interest tags */
+body.index-page.dark-mode .tag {
+  background: rgba(61, 155, 255, 0.14);
+  color: var(--blue);
+  border-color: rgba(61, 155, 255, 0.28);
+}
+
+/* ---------- 5. Content sections ---------- */
+
+body.index-page.dark-mode #message-content {
+  border-color: rgba(255, 255, 255, 0.10);
+  background:
+    linear-gradient(180deg, rgba(18, 26, 41, 0.9), rgba(15, 22, 36, 0.84)),
+    rgba(15, 22, 36, 0.88);
+  box-shadow: 0 18px 52px -38px rgba(0, 0, 0, 0.85);
+}
+
+body.index-page.dark-mode .feature-item {
+  background: rgba(255, 255, 255, 0.045);
+  border-color: rgba(255, 255, 255, 0.09);
+}
+
+body.index-page.dark-mode .feature-item:hover {
+  border-color: rgba(61, 155, 255, 0.32);
+}
+
+body.index-page.dark-mode .feature-item p {
+  color: var(--ink);
+}
+
+body.index-page.dark-mode .why-choose-us {
+  border-color: rgba(47, 209, 122, 0.2);
+  background: linear-gradient(180deg, rgba(47, 209, 122, 0.06), rgba(47, 209, 122, 0.02));
+}
+
+body.index-page.dark-mode .why-choose-us li {
+  color: #c6d3e2;
+}
+
+body.index-page.dark-mode .step {
+  background: rgba(255, 255, 255, 0.045);
+  border-color: rgba(255, 255, 255, 0.09);
+}
+
+body.index-page.dark-mode .stepTitle { color: var(--ink); }
+body.index-page.dark-mode .stepText { color: var(--muted); }
+
+body.index-page.dark-mode .link-card {
+  background: rgba(255, 255, 255, 0.045);
+  border-color: rgba(255, 255, 255, 0.09);
+}
+
+body.index-page.dark-mode .link-card:hover {
+  border-color: rgba(61, 155, 255, 0.32);
+}
+
+body.index-page.dark-mode .linkTitle { color: var(--ink); }
+body.index-page.dark-mode .linkSub { color: var(--muted); }
+
+body.index-page.dark-mode .safety-notice {
+  border-color: rgba(61, 155, 255, 0.2);
+  background: linear-gradient(180deg, rgba(61, 155, 255, 0.06), rgba(61, 155, 255, 0.02));
+}
+
+/* Blog preview cards */
+body.index-page.dark-mode .blog-card {
+  border-color: rgba(255, 255, 255, 0.10);
+  background: rgba(255, 255, 255, 0.045);
+}
+
+body.index-page.dark-mode .blog-more {
+  border-color: rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--ink);
+}
+
+body.index-page.dark-mode .blog-more:hover {
+  border-color: rgba(61, 155, 255, 0.40);
+  color: var(--blue);
+}
+
+/* FAQ */
+body.index-page.dark-mode .faq-item {
+  border-color: rgba(255, 255, 255, 0.10);
+  background: rgba(18, 26, 41, 0.85);
+}
+
+body.index-page.dark-mode .faq-item:has(.faq-answer.active) {
+  border-color: rgba(61, 155, 255, 0.32);
+}
+
+body.index-page.dark-mode .faq-question {
+  color: var(--ink);
+}
+
+body.index-page.dark-mode .faq-question:hover {
+  color: var(--blue);
+}
+
+body.index-page.dark-mode .faq-answer > div {
+  color: var(--muted);
+}
+
+body.index-page.dark-mode .faq-icon {
+  background: rgba(61, 155, 255, 0.12);
+  color: var(--blue);
+}
+
+body.index-page.dark-mode .faq-question[aria-expanded="true"] .faq-icon {
+  background: var(--blue);
+  color: #0b1220;
+}
+
+/* ---------- 6. Footer ---------- */
+
+body.index-page.dark-mode #footer {
+  border-top-color: rgba(255, 255, 255, 0.08);
+  background: rgba(10, 16, 28, 0.75);
+  color: var(--muted);
+}
+
+body.index-page.dark-mode #footer a {
+  color: #c6d3e2;
+}
+
+body.index-page.dark-mode #footer a:hover {
+  color: var(--blue);
+}
+
+/* ---------- 7. Feedback modal ---------- */
+
+body.index-page.dark-mode #feedbackModal .modal-content {
+  border-color: rgba(255, 255, 255, 0.10);
+  background: #121a29;
+  color: var(--ink);
+}
+
+body.index-page.dark-mode #feedbackForm::before {
+  border-color: rgba(61, 155, 255, 0.2);
+  background: rgba(61, 155, 255, 0.08);
+  color: var(--muted);
+}
+
+body.index-page.dark-mode #feedbackText {
+  border-color: rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--ink);
+}
+
+body.index-page.dark-mode #feedbackText:focus {
+  border-color: rgba(61, 155, 255, 0.55);
+}
+
+body.index-page.dark-mode #feedbackModal .close {
+  border-color: rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--muted);
+}
+
+/* ---------- 8. Misc ---------- */
+
+/* Selection color */
+body.index-page.dark-mode ::selection {
+  background: rgba(61, 155, 255, 0.35);
+  color: #fff;
+}
+
+/* Scrollbar (duck-scrollbar) */
+body.index-page.dark-mode.duck-scrollbar::-webkit-scrollbar-track-piece {
+  background-color: #0b1220;
+}
+
+body.index-page.dark-mode.duck-scrollbar::-webkit-scrollbar-thumb:vertical {
+  background: rgba(255, 255, 255, 0.18);
+}
+
+/* Tip / note text */
+body.index-page.dark-mode .tip-inline {
+  color: var(--muted);
+}
+
+/* Hide the light-mode drop shadow on the logo (looks wrong on dark) */
+body.index-page.dark-mode #logo .logo {
+  filter: none;
+}

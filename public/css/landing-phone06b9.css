@@ -1,0 +1,518 @@
+@media (max-width: 1200px) {
+  #message-content {
+    font-size: 1rem;
+  }
+
+  #interest-container p {
+    font-size: 1.2rem;
+  }
+
+  #interest-container input {
+    font-size: 1rem;
+  }
+
+  #tag p {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 1100px) {
+  #instructions {
+    font-size: 1.2rem;
+  }
+
+  #options-container {
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+    max-width: 100%;
+    padding: 0 1rem;
+    box-sizing: border-box;
+  }
+
+  #interest-container {
+    order: 2;
+    margin-top: 1.25rem;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    padding: 1rem;
+    border-radius: 12px;
+  }
+
+  #interest-container > p {
+    margin-top: 0;
+    font-size: 0.95rem;
+    margin-bottom: 0.75rem;
+  }
+  
+  #interest-container input {
+    font-size: 16px; /* Prevents zoom on iOS */
+    width: 100%;
+    max-width: 100%;
+    padding: 0.75rem 1rem;
+    box-sizing: border-box;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+  
+  #tag-container {
+    margin-top: 0.75rem;
+    gap: 8px;
+  }
+  
+  .interest-tag {
+    padding: 5px 12px;
+    font-size: 12px;
+  }
+  
+  .interest-tips {
+    margin-top: 0.75rem;
+    padding: 0.625rem 0.875rem;
+  }
+  
+  .interest-tips p {
+    font-size: 0.75rem;
+    line-height: 1.4;
+  }
+
+  #tag-container {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+  #tag p {
+    font-size: 1rem;
+  }
+
+  #chat-options {
+    font-size: 1.2rem;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+  #chat-options > p {
+    margin-top: 0;
+  }
+
+  #button-container {
+    width: 100%;
+    max-width: 100%;
+    padding: 0 1rem;
+    box-sizing: border-box;
+  }
+}
+
+@media (max-width: 768px) {
+  #content {
+    width: 100%;
+    max-width: 100%;
+    padding: 0.5em 0.75em 1em;
+    margin: 0.5em 0;
+    border-radius: 0;
+  }
+
+  #social-message {
+    padding: 20px 15px;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  #message-content {
+    padding: 15px;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+  
+  .hero-section {
+    padding: 2rem 1rem 1.5rem;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+  
+  .hero-focus {
+    text-align: center;
+  }
+  
+  .hero-section h1 {
+    font-size: 2em;
+  }
+  
+  .hero-subtitle {
+    font-size: 1.1em;
+    padding: 0 0.5rem;
+  }
+  
+  #options-container {
+    width: 100%;
+    max-width: 100%;
+    padding: 0 0.5rem;
+    box-sizing: border-box;
+    gap: 1rem;
+  }
+
+  /* Hero CTA uses #options-container too; keep spacing tight and predictable on mobile */
+  .hero-focus #options-container.hero-cta-inner {
+    padding: 14px 12px 12px;
+    gap: 12px;
+  }
+
+  .hero-focus .age-gate-cta .age-gate-label {
+    display: grid;
+    grid-template-columns: 24px minmax(0, 1fr);
+    gap: 10px;
+    padding: 12px;
+    border-radius: 16px;
+  }
+
+  .hero-focus .age-gate-cta .age-gate-label input[type="checkbox"] {
+    margin-top: 1px;
+    width: 22px;
+    height: 22px;
+    flex-basis: 22px;
+  }
+
+  .hero-focus .age-gate-cta .age-gate-copy {
+    display: grid;
+    gap: 6px;
+  }
+
+  .hero-focus .age-gate-cta .age-gate-title {
+    padding: 4px 8px;
+    font-size: 10px;
+    letter-spacing: 0.06em;
+  }
+
+  .hero-focus .age-gate-cta .age-gate-text {
+    font-size: 12px;
+    line-height: 1.42;
+  }
+
+  .hero-focus #interest-container.hero-interest-cta {
+    padding: 12px 12px;
+  }
+
+  #interest-container {
+    width: 100%;
+    max-width: 100%;
+    padding: 0.875rem 1rem;
+    margin-top: 1rem;
+    box-sizing: border-box;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+  }
+
+  #interest-container p {
+    font-size: 0.9rem;
+    margin-bottom: 0.625rem;
+    font-weight: 600;
+    line-height: 1.3;
+  }
+
+  #interest-container input {
+    width: 100%;
+    max-width: 100%;
+    padding: 0.7rem 0.875rem;
+    font-size: 16px; /* Prevents zoom on iOS */
+    box-sizing: border-box;
+    border-radius: 10px;
+    border: 2px solid #e0e7ff;
+    background: white;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+
+  #interest-container input:focus {
+    border-color: #3498db;
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+    transform: none;
+    background: #fafbff;
+    outline: none;
+  }
+
+  #tag-container {
+    margin-top: 0.625rem;
+    gap: 6px;
+    min-height: 0;
+    justify-content: flex-start;
+    width: 100%;
+    flex-wrap: wrap;
+    line-height: 0;
+  }
+
+  .interest-tag {
+    padding: 3px 8px;
+    font-size: 11px;
+    border-radius: 16px;
+    margin: 0;
+    flex-shrink: 0;
+    line-height: 1;
+    vertical-align: middle;
+  }
+
+  .interest-tag p {
+    gap: 3px;
+    padding: 0;
+    margin: 0;
+  }
+
+  .interest-tag span {
+    padding: 0;
+    margin: 0;
+  }
+
+  .interest-tag .tag-close {
+    margin-left: 2px;
+    font-size: 12px;
+    padding: 0;
+  }
+
+  .interest-tips {
+    margin-top: 0.625rem;
+    padding: 0.5rem 0.75rem;
+    border-radius: 8px;
+  }
+
+  .interest-tips p {
+    font-size: 0.7rem;
+    line-height: 1.4;
+    margin: 0;
+  }
+
+  #chat-options {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+  
+  #button-container {
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 100%;
+    padding: 0 0.5rem;
+    gap: 0.75rem;
+    box-sizing: border-box;
+  }
+
+  #button-container .duck-start-video-chat {
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+  }
+
+  #button-container .duck-start-video-chat-btn {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center !important;
+  }
+  
+  .shiny-blue {
+    width: 100%;
+    max-width: 100%;
+    font-size: 16px;
+    padding: 14px 28px;
+  }
+
+  .feature-grid {
+    grid-template-columns: 1fr !important;
+    gap: 1rem;
+  }
+
+  .why-choose-us,
+  .safety-notice {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    padding: 1rem;
+  }
+
+  .safety-notice {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  .safety-icon {
+    width: 38px;
+    height: 38px;
+  }
+
+  .tip-inline {
+    white-space: normal;
+  }
+
+  .faq-section {
+    width: 100%;
+    max-width: 100%;
+    padding: 1rem;
+    box-sizing: border-box;
+  }
+
+  /* ---------------------------
+     Footer + header (mobile)
+     --------------------------- */
+  #footer {
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 0 12px 14px;
+    margin-top: 12px;
+    box-sizing: border-box;
+    text-align: center;
+  }
+  #footer p {
+    flex: 1 0 100%;
+  }
+  #footer a {
+    margin-left: 0; /* landing.css uses margin-left, but it looks bad when wrapping */
+    padding: 2px 6px;
+    border-radius: 6px;
+  }
+
+  #top-bar {
+    /* Keep a consistent compact "top marquee" thickness across breakpoints. */
+    padding: 0.2em 12px;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  #main-nav {
+    width: 100%;
+    justify-content: center;
+    gap: 8px;
+  }
+  #main-nav a {
+    padding: 6px 10px;
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 500px) {
+  #content {
+    padding: 0.5em 0.5em 1em;
+    margin: 0.25em 0;
+  }
+
+  #social-message {
+    padding: 15px 10px;
+  }
+
+  #message-content {
+    padding: 10px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  #message-image {
+    display: none;
+  }
+
+  #instructions {
+    font-size: 14px;
+    padding: 0 0.5rem;
+  }
+  
+  .hero-section {
+    padding: 1.5rem 0.75rem 1rem;
+  }
+  
+  .hero-section h1 {
+    font-size: 1.8em;
+  }
+  
+  .hero-subtitle {
+    font-size: 1em;
+    margin-bottom: 1.5rem;
+    padding: 0 0.25rem;
+  }
+
+  #options-container {
+    padding: 0 0.25rem;
+    gap: 0.75rem;
+  }
+
+  #interest-container {
+    padding: 0.75rem;
+    margin-top: 0.875rem;
+  }
+
+  #interest-container p {
+    font-size: 0.85rem;
+    margin-bottom: 0.5rem;
+  }
+
+  #interest-container input {
+    font-size: 16px; /* Prevents zoom on iOS */
+    padding: 0.65rem 0.75rem;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  #tag-container {
+    margin-top: 0.5rem;
+    gap: 5px;
+  }
+
+  .interest-tag {
+    padding: 3px 8px;
+    font-size: 10px;
+  }
+
+  .interest-tag p {
+    gap: 2px;
+  }
+
+  .interest-tag .tag-close {
+    margin-left: 2px;
+    font-size: 11px;
+  }
+
+  .interest-tips {
+    margin-top: 0.5rem;
+    padding: 0.5rem 0.625rem;
+  }
+
+  .interest-tips p {
+    font-size: 0.65rem;
+  }
+
+  #button-container {
+    padding: 0 0.25rem;
+    gap: 0.5rem;
+  }
+
+  #button-container .duck-start-video-chat {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .feature-grid {
+    gap: 0.75rem;
+    padding: 0 0.5rem;
+  }
+
+  .why-choose-us,
+  .safety-notice {
+    padding: 0.75rem;
+    font-size: 14px;
+  }
+
+  .faq-section {
+    padding: 0.75rem;
+  }
+
+  .faq-item {
+    margin-bottom: 0.5rem;
+  }
+
+  .faq-question {
+    padding: 1rem;
+    font-size: 15px;
+  }
+}

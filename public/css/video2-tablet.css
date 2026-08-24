@@ -1,0 +1,95 @@
+/* ============================================
+   Video2 Tablet - iPad and Tablet Stylesheet
+   ============================================ */
+
+/* iPad and tablet sizes (768px - 1024px) */
+@media (min-width: 768px) and (max-width: 1024px) {
+  /* Main Container - Adjust for tablet */
+  #main.app-container {
+    height: 100vh;
+    height: 100dvh;
+    max-height: 100vh;
+    max-height: 100dvh;
+    grid-template-rows: 80px minmax(0, 1fr) auto;
+    overflow: hidden;
+    align-content: start;
+  }
+
+  /* Ensure videos don't overflow and fit properly */
+  #videos.video-section {
+    margin: var(--spacing-sm);
+    margin-right: 0;
+    margin-bottom: var(--spacing-sm);
+    min-height: 0;
+    max-height: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    /* Ensure grid rows fit within available space */
+    grid-template-rows: minmax(0, 1fr) minmax(0, 1fr);
+  }
+
+  /* Ensure video containers fit */
+  .video-container {
+    min-height: 0;
+    max-height: 100%;
+    height: 100%;
+  }
+
+  .video-container-self {
+    margin-top: var(--spacing-xs);
+    margin-bottom: 0;
+  }
+
+  /* Message area with proper constraints */
+  #message-area.message-section {
+    min-height: 0;
+    max-height: 100%;
+    overflow: hidden;
+  }
+
+  /* Input area - ensure it's visible and doesn't push videos off screen */
+  #input-area.input-section {
+    min-height: fit-content;
+    flex-shrink: 0;
+    overflow: visible;
+    box-sizing: border-box;
+    /* Ensure it doesn't take more space than needed */
+    height: auto;
+  }
+
+  /* Ensure message container doesn't overflow */
+  .messages-container {
+    max-height: 100%;
+    overflow-y: auto;
+  }
+}
+
+/* iPad Pro and larger tablets in portrait */
+@media (min-width: 1024px) and (max-width: 1366px) and (orientation: portrait) {
+  #main.app-container {
+    grid-template-columns: 35% 1fr;
+    grid-template-rows: 80px minmax(0, 1fr) auto;
+    align-content: start;
+  }
+
+  #videos.video-section {
+    margin: var(--spacing-sm);
+    margin-bottom: var(--spacing-sm);
+    grid-template-rows: minmax(0, 1fr) minmax(0, 1fr);
+  }
+}
+
+/* iPad in landscape */
+@media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
+  #main.app-container {
+    grid-template-rows: 80px minmax(0, 1fr) auto;
+    align-content: start;
+  }
+
+  #videos.video-section {
+    margin: var(--spacing-sm);
+    margin-bottom: var(--spacing-sm);
+    grid-template-rows: minmax(0, 1fr) minmax(0, 1fr);
+  }
+}
+

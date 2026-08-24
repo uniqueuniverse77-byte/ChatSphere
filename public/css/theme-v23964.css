@@ -1,0 +1,790 @@
+/* ==========================================================================
+   ChatSphere shared theme v2 — aligns content/policy/SEO/blog pages with the
+   redesigned landing (landing-v2.css). Loaded LAST on each page so equal-
+   specificity rules override the family stylesheet beneath it.
+   Also contains the global ad-overflow guard (AdSense auto ads pushing the
+   page wider than the viewport).
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   Ad overflow / horizontal-shift guard (all page families)
+   `clip` avoids creating a scroll container, so position: sticky keeps
+   working; older browsers fall back to `hidden`.
+   -------------------------------------------------------------------------- */
+
+html,
+body {
+  overflow-x: hidden;
+  overflow-x: clip;
+  max-width: 100%;
+}
+
+.google-auto-placed,
+ins.adsbygoogle {
+  max-width: 100% !important;
+  overflow: hidden !important;
+}
+
+ins.adsbygoogle > ins,
+ins.adsbygoogle iframe,
+.google-auto-placed iframe {
+  max-width: 100% !important;
+}
+
+/* Side-rail auto ads inject fixed-position containers that can widen the
+   layout viewport on small screens — keep them inside it. */
+[data-side-rail-status],
+ins[data-anchor-status] {
+  max-width: 100vw !important;
+}
+
+/* --------------------------------------------------------------------------
+   Shared v2 tokens (page background applied per family below)
+   -------------------------------------------------------------------------- */
+
+:root {
+  --v2-blue: #017ffe;
+  --v2-blue-deep: #0066d6;
+  --v2-sky: #2c98ff;
+  --v2-ink: #0e2238;
+  --v2-muted: #5c6f83;
+  --v2-line: rgba(14, 34, 56, 0.10);
+  --v2-line-strong: rgba(14, 34, 56, 0.16);
+  --v2-soft-blue: rgba(1, 127, 254, 0.08);
+  --v2-shadow-soft: 0 1px 2px rgba(14, 34, 56, 0.05), 0 14px 36px -16px rgba(14, 34, 56, 0.16);
+  --v2-shadow-pop: 0 30px 70px -24px rgba(14, 34, 56, 0.28);
+  --v2-aurora:
+    radial-gradient(1100px 540px at 12% -6%, rgba(1, 127, 254, 0.10), transparent 65%),
+    radial-gradient(900px 480px at 88% -4%, rgba(24, 182, 106, 0.08), transparent 60%),
+    #f5f8fc;
+}
+
+/* --------------------------------------------------------------------------
+   Content + policy pages (body.duck-scrollbar family)
+   -------------------------------------------------------------------------- */
+
+body.duck-scrollbar {
+  background: var(--v2-aurora);
+  color: var(--v2-ink);
+}
+
+body.duck-scrollbar .duck-sticky,
+body.duck-scrollbar #top-bar {
+  background: rgba(248, 251, 255, 0.82);
+  border-bottom: 1px solid var(--v2-line);
+  box-shadow: 0 10px 34px -18px rgba(14, 34, 56, 0.18);
+  backdrop-filter: blur(16px) saturate(1.4);
+  -webkit-backdrop-filter: blur(16px) saturate(1.4);
+}
+
+/* Header: match index metrics and components */
+
+body.duck-scrollbar .duck-header {
+  width: auto;
+  max-width: 1180px;
+  min-height: 74px;
+  margin: 0 auto;
+  padding: 10px 22px;
+  gap: 18px;
+}
+
+body.duck-scrollbar #top-bar {
+  min-height: 74px;
+  padding: 10px max(22px, calc((100vw - 1180px) / 2));
+}
+
+body.duck-scrollbar #logo,
+body.duck-scrollbar #logo .logo {
+  width: auto;
+  height: auto;
+  max-height: 54px;
+  aspect-ratio: 331 / 57;
+  object-fit: contain;
+}
+
+body.duck-scrollbar .header-right {
+  gap: 10px;
+}
+
+body.duck-scrollbar .index-nav {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  padding: 4px;
+  border: 1px solid var(--v2-line);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.72);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+body.duck-scrollbar .index-nav a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 32px;
+  padding: 0 13px;
+  border-radius: 999px;
+  color: #2a425b;
+  font-size: 13px;
+  font-weight: 800;
+  text-decoration: none;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+body.duck-scrollbar .index-nav a:hover {
+  background: var(--v2-soft-blue);
+  color: var(--v2-blue);
+}
+
+body.duck-scrollbar .duck-online-num {
+  min-height: 38px;
+  border: 1px solid var(--v2-line);
+  background: rgba(255, 255, 255, 0.86);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.95), 0 8px 22px -10px rgba(14, 34, 56, 0.18);
+  color: rgba(14, 34, 56, 0.55);
+}
+
+body.duck-scrollbar button.menu {
+  position: relative;
+  width: 48px;
+  height: 38px;
+  margin: 0;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--v2-line);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.86);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.95), 0 8px 22px -10px rgba(14, 34, 56, 0.18);
+  cursor: pointer;
+  transition: transform 0.18s ease, border-color 0.18s ease;
+}
+
+body.duck-scrollbar button.menu:hover {
+  background: #fff;
+  border-color: rgba(1, 127, 254, 0.30);
+  transform: translateY(-1px);
+}
+
+body.duck-scrollbar button.menu span {
+  position: absolute;
+  width: 18px;
+  height: 2px;
+  border-radius: 999px;
+  background: #2a425b;
+  transition: transform 0.2s ease, opacity 0.2s ease, top 0.2s ease;
+}
+
+body.duck-scrollbar button.menu span:nth-child(1) { top: 12px; }
+body.duck-scrollbar button.menu span:nth-child(2) { top: 18px; }
+body.duck-scrollbar button.menu span:nth-child(3) { top: 24px; }
+
+body.duck-scrollbar.menu-open button.menu span:nth-child(1) { top: 18px; transform: rotate(45deg); }
+body.duck-scrollbar.menu-open button.menu span:nth-child(2) { opacity: 0; }
+body.duck-scrollbar.menu-open button.menu span:nth-child(3) { top: 18px; transform: rotate(-45deg); }
+
+@media (max-width: 1024px) {
+  body.duck-scrollbar .index-nav { display: none; }
+
+  body.duck-scrollbar .duck-header {
+    min-height: 66px;
+    padding: 9px 12px;
+  }
+
+  body.duck-scrollbar #top-bar {
+    min-height: 66px;
+    padding: 9px 12px;
+  }
+
+  body.duck-scrollbar #logo,
+  body.duck-scrollbar #logo .logo {
+    max-height: 38px;
+  }
+
+  body.duck-scrollbar button.menu { width: 44px; height: 36px; }
+
+  body.duck-scrollbar button.menu span:nth-child(1) { top: 11px; }
+  body.duck-scrollbar button.menu span:nth-child(2) { top: 17px; }
+  body.duck-scrollbar button.menu span:nth-child(3) { top: 23px; }
+
+  body.duck-scrollbar.menu-open button.menu span:nth-child(1),
+  body.duck-scrollbar.menu-open button.menu span:nth-child(3) { top: 17px; }
+}
+
+/* Hero / page heading spacing (content + policy pages) */
+
+body.duck-scrollbar #content {
+  margin-top: clamp(24px, 4vw, 44px);
+}
+
+body.duck-scrollbar .hero-section {
+  max-width: 760px;
+  margin: 0 auto clamp(22px, 3.4vw, 34px);
+  padding: 0;
+  text-align: center;
+}
+
+body.duck-scrollbar .hero-section h1 {
+  margin: 0 0 12px;
+}
+
+body.duck-scrollbar .hero-section .hero-subtitle {
+  max-width: 620px;
+  margin: 0 auto;
+  color: var(--v2-muted);
+  font-size: clamp(16px, 2.2vw, 18px);
+  line-height: 1.6;
+}
+
+/* Headings: v2 type scale (tighter tracking, less extreme size) */
+
+body.duck-scrollbar #content > h1,
+body.duck-scrollbar .hero-section h1,
+body.duck-scrollbar #content h1 {
+  font-size: clamp(34px, 5.4vw, 56px);
+  font-weight: 900;
+  line-height: 1.04;
+  letter-spacing: -0.025em;
+  color: var(--v2-ink);
+}
+
+body.duck-scrollbar #message-content h2,
+body.duck-scrollbar #content h2,
+body.duck-scrollbar .faq-section h2 {
+  letter-spacing: -0.02em;
+  font-weight: 900;
+}
+
+/* Cards */
+
+body.duck-scrollbar #message-content,
+body.duck-scrollbar #content[class],
+body.duck-scrollbar .callout,
+body.duck-scrollbar .sectionCard,
+body.duck-scrollbar .summaryItem,
+body.duck-scrollbar .mini {
+  border-color: var(--v2-line);
+}
+
+body.duck-scrollbar #message-content {
+  border-radius: 28px;
+  background: #ffffff;
+  box-shadow: var(--v2-shadow-soft);
+}
+
+body.duck-scrollbar .feature-item {
+  border: 1px solid var(--v2-line);
+  border-radius: 16px;
+  background: linear-gradient(180deg, #fbfdff, #f5f9ff);
+  transition: transform 0.16s ease, border-color 0.16s ease, box-shadow 0.16s ease;
+}
+
+body.duck-scrollbar .feature-item:hover {
+  transform: translateY(-3px);
+  border-color: rgba(1, 127, 254, 0.26);
+  box-shadow: var(--v2-shadow-soft);
+}
+
+body.duck-scrollbar .link-card {
+  position: relative;
+  border: 1px solid var(--v2-line);
+  border-radius: 16px;
+  background: #fbfdff;
+  transition: transform 0.16s ease, border-color 0.16s ease, box-shadow 0.16s ease;
+}
+
+body.duck-scrollbar .link-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(1, 127, 254, 0.30);
+  box-shadow: var(--v2-shadow-soft);
+}
+
+/* CTA buttons (content pages) */
+
+body.duck-scrollbar .duck-start-video-chat.with-card {
+  border-radius: 18px;
+  background: linear-gradient(180deg, var(--v2-sky) 0%, var(--v2-blue) 58%, var(--v2-blue-deep) 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.35),
+    0 18px 34px -14px rgba(1, 127, 254, 0.55);
+  transition: transform 0.16s ease, box-shadow 0.16s ease, filter 0.16s ease;
+}
+
+body.duck-scrollbar .duck-start-video-chat.with-card:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.35),
+    0 24px 44px -14px rgba(1, 127, 254, 0.6);
+  filter: saturate(1.06);
+}
+
+body.duck-scrollbar .duck-start-video-chat-btn {
+  font-weight: 900;
+  text-shadow: 0 1px 2px rgba(0, 50, 110, 0.25);
+}
+
+/* FAQ accordion (content pages still use landing.css markup) */
+
+body.duck-scrollbar .faq-container {
+  display: grid;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+body.duck-scrollbar .faq-item {
+  margin: 0;
+  border: 1px solid var(--v2-line);
+  border-radius: 16px;
+  background: #ffffff;
+  box-shadow: 0 1px 2px rgba(14, 34, 56, 0.04);
+  overflow: hidden;
+  transition: border-color 0.16s ease, box-shadow 0.16s ease;
+}
+
+body.duck-scrollbar .faq-item:has(.faq-answer.active) {
+  border-color: rgba(1, 127, 254, 0.28);
+  box-shadow: var(--v2-shadow-soft);
+}
+
+body.duck-scrollbar .faq-question {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 16px 18px;
+  border: 0;
+  background: transparent;
+  color: var(--v2-ink);
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 800;
+  text-align: left;
+  cursor: pointer;
+}
+
+body.duck-scrollbar .faq-question:hover {
+  background: transparent;
+  color: var(--v2-blue);
+}
+
+body.duck-scrollbar .faq-icon {
+  flex: 0 0 auto;
+  width: 30px;
+  height: 30px;
+  display: grid;
+  place-items: center;
+  border-radius: 10px;
+  background: var(--v2-soft-blue);
+  color: var(--v2-blue);
+  font-size: 18px;
+  font-weight: 800;
+  line-height: 1;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+body.duck-scrollbar .faq-question[aria-expanded="true"] .faq-icon {
+  background: var(--v2-blue);
+  color: #fff;
+}
+
+body.duck-scrollbar .faq-answer {
+  height: 0;
+  overflow: hidden;
+  transition: height 0.28s ease;
+  background: transparent;
+}
+
+body.duck-scrollbar .faq-answer > div {
+  padding: 0 18px 16px;
+  color: var(--v2-muted);
+  font-size: 14.5px;
+  line-height: 1.65;
+}
+
+/* Footer pill bar (content + policy) */
+
+body.duck-scrollbar #footer {
+  border: 1px solid var(--v2-line);
+  border-radius: 999px;
+  box-shadow: var(--v2-shadow-soft);
+}
+
+/* Feedback modal (content pages) */
+
+body.duck-scrollbar #feedbackModal .modal-content {
+  border: 1px solid var(--v2-line);
+  border-radius: 22px;
+  box-shadow: var(--v2-shadow-pop);
+}
+
+body.duck-scrollbar #feedbackModal #submit-btn,
+body.duck-scrollbar .modal .button {
+  min-height: 46px;
+  border: 0;
+  border-radius: 999px;
+  background: linear-gradient(180deg, var(--v2-sky) 0%, var(--v2-blue) 100%);
+  color: #fff;
+  font-family: inherit;
+  font-weight: 900;
+  box-shadow: 0 14px 28px -10px rgba(1, 127, 254, 0.5);
+  cursor: pointer;
+}
+
+/* Policy-only cards */
+
+body.duck-scrollbar .meta {
+  border: 1px solid rgba(1, 127, 254, 0.20);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.9), rgba(1, 127, 254, 0.06));
+  box-shadow: 0 8px 22px -12px rgba(1, 127, 254, 0.45);
+  color: var(--v2-blue-deep);
+}
+
+body.duck-scrollbar .summaryItem,
+body.duck-scrollbar .mini {
+  transition: transform 0.16s ease, box-shadow 0.16s ease, border-color 0.16s ease;
+}
+
+body.duck-scrollbar .summaryItem:hover,
+body.duck-scrollbar .mini:hover {
+  transform: translateY(-2px);
+  border-color: rgba(1, 127, 254, 0.26);
+  box-shadow: var(--v2-shadow-soft);
+}
+
+/* --------------------------------------------------------------------------
+   SEO pages (.seo-page family)
+   -------------------------------------------------------------------------- */
+
+body.seo-page,
+.seo-page {
+  background: var(--v2-aurora);
+  color: var(--v2-ink);
+  overflow-x: hidden;
+  overflow-x: clip;
+}
+
+.seo-topbar {
+  background: rgba(248, 251, 255, 0.82);
+  border-bottom: 1px solid var(--v2-line);
+  box-shadow: 0 10px 34px -18px rgba(14, 34, 56, 0.18);
+  backdrop-filter: blur(16px) saturate(1.4);
+  -webkit-backdrop-filter: blur(16px) saturate(1.4);
+}
+
+.seo-nav {
+  min-height: 74px;
+}
+
+.seo-logo img {
+  width: auto;
+  height: auto;
+  max-height: 54px;
+  aspect-ratio: 331 / 57;
+  object-fit: contain;
+}
+
+@media (max-width: 1024px) {
+  .seo-logo img { max-height: 38px; }
+}
+
+.seo-nav-links {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  padding: 4px;
+  border: 1px solid var(--v2-line);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.72);
+}
+
+.seo-nav-links a:hover {
+  background: var(--v2-soft-blue);
+  color: var(--v2-blue);
+}
+
+.seo-eyebrow {
+  padding: 7px 16px;
+  border: 1px solid rgba(1, 127, 254, 0.20);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.9), rgba(1, 127, 254, 0.06));
+  color: var(--v2-blue-deep);
+  font-weight: 900;
+  box-shadow: 0 8px 22px -12px rgba(1, 127, 254, 0.45);
+}
+
+.seo-hero h1 {
+  letter-spacing: -0.025em;
+  line-height: 1.04;
+}
+
+.seo-button {
+  border: 1px solid transparent;
+  background: linear-gradient(180deg, var(--v2-sky) 0%, var(--v2-blue) 58%, var(--v2-blue-deep) 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.35),
+    0 18px 34px -14px rgba(1, 127, 254, 0.55);
+  font-weight: 900;
+  transition: transform 0.16s ease, box-shadow 0.16s ease, filter 0.16s ease;
+}
+
+.seo-button:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.35),
+    0 24px 44px -14px rgba(1, 127, 254, 0.6);
+  filter: saturate(1.06);
+}
+
+.seo-button.secondary {
+  background: #fff;
+  border-color: var(--v2-line-strong);
+  box-shadow: var(--v2-shadow-soft);
+}
+
+.seo-button.secondary:hover {
+  border-color: rgba(1, 127, 254, 0.40);
+  filter: none;
+}
+
+.seo-panel {
+  border-color: var(--v2-line);
+  background: #ffffff;
+  box-shadow: var(--v2-shadow-soft);
+}
+
+.seo-sidebar .seo-panel,
+.seo-related a {
+  transition: transform 0.16s ease, border-color 0.16s ease, box-shadow 0.16s ease;
+}
+
+.seo-related a:hover {
+  transform: translateY(-1px);
+  border-color: rgba(1, 127, 254, 0.30);
+  box-shadow: var(--v2-shadow-soft);
+}
+
+.seo-footer {
+  border-top: 1px solid var(--v2-line);
+  background: rgba(255, 255, 255, 0.6);
+}
+
+/* --------------------------------------------------------------------------
+   Blog pages
+   -------------------------------------------------------------------------- */
+
+body .blog-shell {
+  background: var(--v2-aurora);
+}
+
+.blog-header {
+  background: rgba(248, 251, 255, 0.82);
+  border-bottom: 1px solid var(--v2-line);
+  box-shadow: 0 10px 34px -18px rgba(14, 34, 56, 0.18);
+  backdrop-filter: blur(16px) saturate(1.4);
+  -webkit-backdrop-filter: blur(16px) saturate(1.4);
+}
+
+.blog-header-inner {
+  min-height: 74px;
+}
+
+.blog-logo img {
+  width: auto;
+  height: auto;
+  max-height: 54px;
+  aspect-ratio: 331 / 57;
+  object-fit: contain;
+}
+
+@media (max-width: 1024px) {
+  .blog-logo img { max-height: 38px; }
+}
+
+.blog-nav {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  padding: 4px;
+  border: 1px solid var(--v2-line);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.72);
+}
+
+.blog-nav a:hover {
+  background: var(--v2-soft-blue);
+  color: var(--v2-blue);
+}
+
+.blog-hero h1 {
+  letter-spacing: -0.025em;
+  line-height: 1.04;
+}
+
+.post-card {
+  border-color: var(--v2-line);
+  background: #ffffff;
+  box-shadow: var(--v2-shadow-soft);
+  transition: transform 0.16s ease, border-color 0.16s ease, box-shadow 0.16s ease;
+}
+
+.post-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(1, 127, 254, 0.30);
+  box-shadow: var(--v2-shadow-pop);
+}
+
+.read-more {
+  background: linear-gradient(180deg, var(--v2-sky) 0%, var(--v2-blue) 100%);
+  font-weight: 900;
+  box-shadow: 0 14px 28px -10px rgba(1, 127, 254, 0.5);
+}
+
+.blog-footer {
+  border-top: 1px solid var(--v2-line);
+  background: rgba(255, 255, 255, 0.6);
+}
+
+/* --------------------------------------------------------------------------
+   Content-page header/menu final pass
+   Keep pages such as /video-chat-apps.html visually aligned with /blog.
+   -------------------------------------------------------------------------- */
+
+body.duck-scrollbar .duck-sticky {
+  top: -1px;
+  padding: 0;
+  border-bottom: 1px solid rgba(16, 34, 53, 0.08);
+  background: rgba(246, 249, 255, 0.90);
+  box-shadow: 0 12px 30px rgba(2, 9, 23, 0.08);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+
+body.duck-scrollbar .duck-header {
+  width: min(1120px, calc(100% - 32px));
+  max-width: 100%;
+  min-height: 78px;
+  padding: 0;
+  gap: 20px;
+  background: transparent;
+  box-shadow: none;
+}
+
+body.duck-scrollbar #logo,
+body.duck-scrollbar #logo .logo {
+  width: clamp(166px, 22vw, 214px);
+  max-height: none;
+  height: auto;
+  aspect-ratio: auto;
+}
+
+body.duck-scrollbar .index-nav {
+  gap: 6px;
+  padding: 5px;
+  border-color: rgba(1, 127, 254, 0.14);
+  background: rgba(255, 255, 255, 0.72);
+  box-shadow: none;
+}
+
+body.duck-scrollbar .index-nav a {
+  min-height: 30px;
+  padding: 0 13px;
+  color: #17324d;
+  font-weight: 900;
+}
+
+body.duck-scrollbar .index-nav a:hover,
+body.duck-scrollbar .index-nav a:focus-visible {
+  color: var(--v2-blue);
+  background: rgba(1, 127, 254, 0.08);
+}
+
+body.duck-scrollbar .duck-online-num {
+  min-width: 0;
+  min-height: 32px;
+  gap: 5px;
+  padding: 0 10px;
+  border: 1px solid rgba(1, 127, 254, 0.14);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.72);
+  color: rgba(1, 127, 254, 0.74);
+  font-size: 11.5px;
+  font-weight: 900;
+  line-height: 1;
+  box-shadow: none;
+  white-space: nowrap;
+}
+
+body.duck-scrollbar .duck-online-num::before {
+  width: 7px;
+  height: 7px;
+  background: var(--v2-blue);
+  box-shadow: 0 0 0 3px rgba(1, 127, 254, 0.12), 0 0 12px rgba(1, 127, 254, 0.28);
+}
+
+body.duck-scrollbar .duck-online-num span {
+  color: var(--v2-blue);
+}
+
+body.duck-scrollbar button.menu,
+body.duck-scrollbar .menu {
+  width: 38px;
+  height: 38px;
+  border-color: rgba(1, 127, 254, 0.14);
+  background: rgba(255, 255, 255, 0.72);
+  box-shadow: none;
+}
+
+body.duck-scrollbar button.menu:hover,
+body.duck-scrollbar button.menu:focus-visible,
+body.duck-scrollbar .menu:hover,
+body.duck-scrollbar .menu:focus-visible {
+  border-color: rgba(1, 127, 254, 0.22);
+  background: rgba(1, 127, 254, 0.08);
+  transform: none;
+}
+
+body.duck-scrollbar .accordion {
+  top: calc(100% + 8px);
+  width: min(360px, calc(100vw - 24px));
+  padding: 8px;
+  border: 1px solid rgba(1, 127, 254, 0.14);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: 0 12px 30px rgba(2, 9, 23, 0.10);
+}
+
+body.duck-scrollbar .accordion-header,
+body.duck-scrollbar .accordion-content a {
+  border-radius: 12px;
+}
+
+body.duck-scrollbar .accordion-header:hover,
+body.duck-scrollbar .accordion-content a:hover {
+  color: var(--v2-blue);
+  background: rgba(1, 127, 254, 0.08);
+}
+
+@media (max-width: 768px) {
+  body.duck-scrollbar .duck-header {
+    width: min(1120px, calc(100% - 24px));
+    min-height: 72px;
+    gap: 8px;
+  }
+
+  body.duck-scrollbar #logo,
+  body.duck-scrollbar #logo .logo {
+    width: clamp(148px, 38vw, 172px);
+  }
+
+  body.duck-scrollbar .duck-online-num {
+    min-height: 29px;
+    padding: 0 8px;
+    font-size: 10px;
+  }
+
+  body.duck-scrollbar button.menu,
+  body.duck-scrollbar .menu {
+    width: 36px;
+    height: 36px;
+  }
+}

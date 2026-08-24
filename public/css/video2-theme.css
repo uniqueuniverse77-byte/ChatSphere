@@ -1,0 +1,209 @@
+/* ============================================
+   Video2 Theme - Dark Mode Support
+   ============================================ */
+
+/* Dark Mode Variables */
+[data-theme="dark"],
+.dark-mode {
+  --color-primary: #5a9df8;
+  --color-primary-dark: #4a8de8;
+  --color-secondary: #ecf0f1;
+  --color-success: #2ecc71;
+  --color-danger: #e74c3c;
+  --color-warning: #f39c12;
+  --color-info: #3498db;
+  
+  --bg-primary: #1a1a1a;
+  --bg-secondary: #2d2d2d;
+  --bg-tertiary: #3a3a3a;
+  --bg-dark: #0f0f0f;
+  --bg-overlay: rgba(0, 0, 0, 0.85);
+  
+  --text-primary: #ecf0f1;
+  --text-secondary: #bdc3c7;
+  --text-light: #ffffff;
+  --text-muted: #7f8c8d;
+  
+  --border-color: #404040;
+}
+
+/* Apply dark theme when checkbox is checked */
+#dark-mode-toggle-compact:checked ~ *,
+body.dark-mode {
+  --color-primary: #5a9df8;
+  --color-primary-dark: #4a8de8;
+  --color-secondary: #ecf0f1;
+  --color-success: #2ecc71;
+  --color-danger: #e74c3c;
+  --color-warning: #f39c12;
+  --color-info: #3498db;
+  
+  --bg-primary: #1a1a1a;
+  --bg-secondary: #2d2d2d;
+  --bg-tertiary: #3a3a3a;
+  --bg-dark: #0f0f0f;
+  --bg-overlay: rgba(0, 0, 0, 0.85);
+  
+  --text-primary: #ecf0f1;
+  --text-secondary: #bdc3c7;
+  --text-light: #ffffff;
+  --text-muted: #7f8c8d;
+  
+  --border-color: #404040;
+}
+
+/* Dark mode specific adjustments */
+[data-theme="dark"] .modal-content,
+.dark-mode .modal-content {
+  background-color: var(--bg-primary);
+  border: 1px solid var(--border-color);
+}
+
+[data-theme="dark"] .online-details,
+.dark-mode .online-details {
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+}
+
+[data-theme="dark"] .input-wrapper,
+.dark-mode .input-wrapper {
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+}
+
+[data-theme="dark"] .message,
+.dark-mode .message {
+  background-color: var(--bg-secondary);
+  color: var(--text-primary);
+}
+
+[data-theme="dark"] .message-typing,
+.dark-mode .message-typing {
+  background-color: var(--bg-tertiary);
+  color: var(--text-secondary);
+}
+
+[data-theme="dark"] .form-group select,
+[data-theme="dark"] .form-group textarea,
+.dark-mode .form-group select,
+.dark-mode .form-group textarea {
+  background-color: var(--bg-secondary);
+  border-color: var(--border-color);
+  color: var(--text-primary);
+}
+
+[data-theme="dark"] .report-modal-card,
+.dark-mode .report-modal-card {
+  background:
+    linear-gradient(180deg, rgba(15, 23, 42, 0.98), rgba(15, 23, 42, 0.94));
+  border-color: rgba(148, 163, 184, 0.18);
+  box-shadow:
+    0 30px 90px rgba(0, 0, 0, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.02);
+}
+
+[data-theme="dark"] .report-modal-close,
+.dark-mode .report-modal-close {
+  border-color: rgba(148, 163, 184, 0.16);
+  background: rgba(255, 255, 255, 0.04);
+  color: rgba(226, 232, 240, 0.65);
+}
+
+[data-theme="dark"] .report-modal-close:hover,
+.dark-mode .report-modal-close:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: rgba(248, 250, 252, 0.92);
+}
+
+[data-theme="dark"] .report-modal-heading h2,
+[data-theme="dark"] .report-field label,
+.dark-mode .report-modal-heading h2,
+.dark-mode .report-field label {
+  color: #f8fafc;
+}
+
+[data-theme="dark"] .report-modal-sub,
+[data-theme="dark"] .report-field-help,
+[data-theme="dark"] .report-optional,
+[data-theme="dark"] .report-modal-footer-copy,
+.dark-mode .report-modal-sub,
+.dark-mode .report-field-help,
+.dark-mode .report-optional,
+.dark-mode .report-modal-footer-copy {
+  color: rgba(226, 232, 240, 0.72);
+}
+
+[data-theme="dark"] .report-modal-alert,
+.dark-mode .report-modal-alert {
+  background: rgba(251, 146, 60, 0.12);
+  border-color: rgba(251, 146, 60, 0.20);
+  color: rgba(254, 215, 170, 0.95);
+}
+
+[data-theme="dark"] .report-modal-footer-copy,
+.dark-mode .report-modal-footer-copy {
+  background: rgba(59, 130, 246, 0.10);
+  border-color: rgba(59, 130, 246, 0.16);
+}
+
+[data-theme="dark"] .report-field select,
+[data-theme="dark"] .report-field textarea,
+.dark-mode .report-field select,
+.dark-mode .report-field textarea {
+  background: rgba(15, 23, 42, 0.88);
+  border-color: rgba(148, 163, 184, 0.18);
+  color: #f8fafc;
+}
+
+[data-theme="dark"] .report-select-wrap::after,
+.dark-mode .report-select-wrap::after {
+  border-right-color: rgba(226, 232, 240, 0.52);
+  border-bottom-color: rgba(226, 232, 240, 0.52);
+}
+
+[data-theme="dark"] .message.message-system.message-system-terminal .system,
+.dark-mode .message.message-system.message-system-terminal .system,
+[data-theme="dark"] .message-system.message-system-terminal .system,
+.dark-mode .message-system.message-system-terminal .system {
+  background: linear-gradient(180deg, rgba(15, 23, 42, 0.96), rgba(15, 23, 42, 0.92)) !important;
+  border-color: rgba(148, 163, 184, 0.14) !important;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.26) !important;
+  color: #e2e8f0 !important;
+}
+
+[data-theme="dark"] .button-secondary,
+.dark-mode .button-secondary {
+  background-color: var(--bg-tertiary);
+  color: var(--text-primary);
+}
+
+[data-theme="dark"] .button-secondary:hover,
+.dark-mode .button-secondary:hover {
+  background-color: var(--border-color);
+}
+
+[data-theme="dark"] .mute-toggle-btn,
+.dark-mode .mute-toggle-btn {
+  background-color: var(--bg-secondary);
+  border-color: var(--border-color);
+  color: var(--text-primary);
+}
+
+[data-theme="dark"] .mute-toggle-btn:hover,
+.dark-mode .mute-toggle-btn:hover {
+  background-color: var(--bg-tertiary);
+}
+
+/* Smooth theme transition */
+* {
+  transition: background-color var(--transition-base),
+              color var(--transition-base),
+              border-color var(--transition-base);
+}
+
+/* Preserve video and image colors */
+.video-player,
+.logo-image,
+.watermark {
+  transition: none;
+}

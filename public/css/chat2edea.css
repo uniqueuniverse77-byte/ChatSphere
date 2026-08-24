@@ -1,0 +1,198 @@
+/* ============================================
+   Chat2.css - Modern Professional Chat Stylesheet
+   Based on video2.css but optimized for text chat
+   ============================================ */
+
+/* Import shared variables and base styles from video2.css */
+/* Note: This file should be loaded after video2.css */
+
+/* Chat layout (no video section) */
+#main.app-container.chat-layout {
+  grid-template-columns: 1fr;
+  grid-template-areas:
+    'header'
+    'messages'
+    'input';
+}
+
+/* Message area takes full width in chat */
+#message-area.message-section {
+  grid-area: messages;
+  border-left: none;
+  border-right: none;
+  /* Match horizontal padding/margins on both sides in chat layout */
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+/* Input area styling for chat */
+#input-area.input-section {
+  grid-area: input;
+}
+
+/* Discreet report link in header (text chat) */
+.header-controls .header-link.report-link {
+  font-size: 12px;
+  font-weight: 800;
+  color: #ffffff;
+  text-decoration: none;
+  opacity: 1;
+  padding: 6px 10px;
+  border-radius: 999px;
+  user-select: none;
+  background: #ef4444; /* red */
+  box-shadow: 0 2px 6px rgba(239, 68, 68, 0.25);
+}
+.header-controls .header-link.report-link:hover {
+  background: #dc2626;
+  box-shadow: 0 2px 8px rgba(220, 38, 38, 0.28);
+}
+.header-controls .header-link.report-link:focus,
+.header-controls .header-link.report-link:focus-visible {
+  outline: 2px solid rgba(239, 68, 68, 0.55);
+  outline-offset: 2px;
+}
+
+/* File message styles for chat */
+.file-message {
+  max-width: 400px;
+  margin: 5px 0;
+  padding: 8px;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.file-message img {
+  max-width: 100%;
+  max-height: 400px;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  border-radius: 8px;
+  cursor: pointer;
+  display: block;
+  margin: 0 auto;
+}
+
+.file-message video {
+  max-width: 100%;
+  max-height: 400px;
+  width: auto;
+  height: auto;
+  border-radius: 8px;
+  background-color: #000;
+  display: block;
+  margin: 0 auto;
+}
+
+.file-message .file-caption {
+  font-size: 0.8em;
+  color: #888;
+  margin-top: 5px;
+  word-break: break-all;
+}
+
+.file-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  padding: 6px 2px 0;
+}
+
+.file-info {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.file-name-text {
+  font-size: 12px;
+  color: var(--text-primary);
+  width: 100%;
+  word-break: break-all;
+  white-space: normal;
+}
+
+.file-actions {
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+/* Upload toast styling for chat */
+.upload-toast {
+  position: fixed;
+  bottom: var(--spacing-xl);
+  left: 50%;
+  transform: translateX(-50%);
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: var(--border-radius);
+  background: rgba(15, 23, 42, 0.9);
+  color: var(--text-light);
+  font-size: 13px;
+  font-weight: 500;
+  display: none;
+  z-index: 9999;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(10px);
+}
+
+.upload-toast .toast-icon {
+  margin-right: 8px;
+  font-size: 16px;
+}
+
+.upload-toast .toast-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.upload-toast .toast-title {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  opacity: 0.8;
+}
+
+.upload-toast .toast-message {
+  margin-top: 2px;
+  font-size: 13px;
+  color: var(--text-light);
+}
+
+/* Mobile chat layout */
+@media (max-width: 800px) {
+  #main.app-container.chat-layout {
+    grid-template-areas:
+      'header'
+      'messages'
+      'input';
+  }
+
+  /* Smaller previews on mobile */
+  .file-message {
+    max-width: 280px;
+  }
+
+  .file-message img,
+  .file-message video {
+    max-height: 300px;
+  }
+
+  /* Centered, narrower toast on mobile */
+  .upload-toast {
+    left: var(--spacing-md);
+    right: var(--spacing-md);
+    transform: none;
+    width: auto;
+    font-size: 12px;
+  }
+
+  /* Hide keyboard hints (Esc) on small screens */
+  .keyboard-hint,
+  #skip-btn span.keyboard-hint,
+  #skip-btn span:last-child {
+    display: none !important;
+  }
+
+}

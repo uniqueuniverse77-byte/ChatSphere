@@ -1,0 +1,420 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+  font-family: Roboto, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: #102235;
+  background:
+    linear-gradient(180deg, rgba(229, 242, 255, 0.95) 0%, rgba(255, 255, 255, 0.98) 42%, #ffffff 100%),
+    #ffffff;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body.duck-scrollbar {
+  background:
+    linear-gradient(180deg, rgba(229, 242, 255, 0.95) 0%, rgba(255, 255, 255, 0.98) 42%, #ffffff 100%),
+    #ffffff;
+}
+
+body.duck-scrollbar #main {
+  min-height: 100vh;
+  background: transparent;
+}
+
+body.duck-scrollbar #top-bar {
+  position: sticky;
+  top: -1px;
+  z-index: 2147483000;
+  width: 100%;
+  min-height: 78px;
+  height: auto;
+  padding: 0 max(16px, calc((100vw - 1120px) / 2));
+  border-bottom: 1px solid rgba(16, 34, 53, 0.08);
+  background: rgba(246, 249, 255, 0.90);
+  box-shadow: 0 12px 30px rgba(2, 9, 23, 0.08);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+body.duck-scrollbar #logo {
+  display: inline-flex;
+  align-items: center;
+  min-width: 0;
+  text-decoration: none;
+}
+
+body.duck-scrollbar #logo .logo {
+  width: clamp(166px, 22vw, 214px);
+  max-width: 100%;
+  height: auto;
+  display: block;
+  object-fit: contain;
+}
+
+body.duck-scrollbar #main-nav.policyLinks {
+  display: flex;
+  align-items: center;
+  flex: 0 1 auto;
+  gap: 6px;
+  max-width: 100%;
+  padding: 5px;
+  border: 1px solid rgba(1, 127, 254, 0.14);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.72);
+}
+
+body.duck-scrollbar #main-nav.policyLinks a {
+  min-height: 30px;
+  display: inline-flex;
+  align-items: center;
+  padding: 0 13px;
+  border-radius: 999px;
+  color: #17324d;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 900;
+  white-space: nowrap;
+}
+
+body.duck-scrollbar #main-nav.policyLinks a:hover,
+body.duck-scrollbar #main-nav.policyLinks a:focus-visible {
+  color: #017ffe;
+  background: rgba(1, 127, 254, 0.08);
+}
+
+body.duck-scrollbar #top-right {
+  display: none;
+}
+
+body.duck-scrollbar #content {
+  width: min(860px, calc(100% - 32px));
+  max-width: 100%;
+  margin: clamp(34px, 6vw, 76px) auto 48px;
+  padding: clamp(22px, 4vw, 38px);
+  border: 1px solid rgba(16, 34, 53, 0.08);
+  border-radius: 28px;
+  background: rgba(255, 255, 255, 0.88);
+  box-shadow: 0 24px 60px rgba(23, 50, 77, 0.10);
+  color: #102235;
+  align-items: stretch;
+}
+
+body.duck-scrollbar #content h1 {
+  margin: 0 0 14px;
+  color: #0a1d31;
+  font-size: clamp(40px, 7vw, 70px);
+  line-height: 0.98;
+  letter-spacing: 0;
+}
+
+body.duck-scrollbar #content h2 {
+  margin: 30px 0 10px;
+  color: #0a1d31;
+  font-size: 26px;
+  line-height: 1.18;
+  letter-spacing: 0;
+}
+
+body.duck-scrollbar #content h2:first-child {
+  margin-top: 0;
+}
+
+body.duck-scrollbar #content h3 {
+  margin: 0 0 10px;
+  color: #102235;
+  font-size: 15px;
+  line-height: 1.25;
+}
+
+body.duck-scrollbar #content p,
+body.duck-scrollbar #content li {
+  color: rgba(16, 34, 53, 0.74);
+  font-size: 16px;
+  line-height: 1.75;
+}
+
+body.duck-scrollbar #content a {
+  color: #017ffe;
+  font-weight: 900;
+}
+
+body.duck-scrollbar #content ul {
+  padding-left: 22px;
+}
+
+body.duck-scrollbar .meta {
+  width: fit-content;
+  margin: 0 0 22px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(1, 127, 254, 0.09);
+  color: #0171de;
+  font-size: 12px;
+  font-weight: 900;
+}
+
+body.duck-scrollbar .callout,
+body.duck-scrollbar .sectionCard,
+body.duck-scrollbar .summaryItem,
+body.duck-scrollbar .mini {
+  border: 1px solid rgba(1, 127, 254, 0.14);
+  border-radius: 22px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(242, 248, 255, 0.96));
+  box-shadow: 0 18px 42px rgba(23, 50, 77, 0.08);
+  color: #102235;
+}
+
+body.duck-scrollbar .callout {
+  margin: 20px 0 0;
+  padding: 18px 20px;
+}
+
+body.duck-scrollbar .sectionCard {
+  margin-top: 18px;
+  padding: clamp(18px, 3vw, 24px);
+}
+
+body.duck-scrollbar .sectionCard h2:first-child {
+  margin-top: 0;
+}
+
+body.duck-scrollbar .guidelinesHero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 220px;
+  gap: 18px;
+  align-items: stretch;
+  margin-bottom: 22px;
+}
+
+body.duck-scrollbar .heroLead {
+  margin: 14px 0 0;
+  color: rgba(16, 34, 53, 0.72);
+  font-size: clamp(16px, 2vw, 20px);
+  line-height: 1.6;
+}
+
+body.duck-scrollbar .statusCard {
+  padding: 22px;
+  border: 1px solid rgba(1, 127, 254, 0.14);
+  border-radius: 22px;
+  background: linear-gradient(180deg, #2c98ff 0%, #017ffe 100%);
+  box-shadow: 0 18px 42px rgba(1, 127, 254, 0.18);
+}
+
+body.duck-scrollbar .statusCard strong {
+  display: block;
+  color: #ffffff;
+  font-size: 46px;
+  line-height: 1;
+}
+
+body.duck-scrollbar .statusCard span {
+  display: block;
+  margin-top: 10px;
+  color: rgba(255, 255, 255, 0.86);
+  line-height: 1.5;
+}
+
+body.duck-scrollbar .ruleSummary,
+body.duck-scrollbar .grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  margin: 18px 0 8px;
+}
+
+body.duck-scrollbar .grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+body.duck-scrollbar .summaryItem,
+body.duck-scrollbar .mini {
+  min-width: 0;
+  padding: 18px;
+}
+
+body.duck-scrollbar .summaryItem strong {
+  display: block;
+  margin-bottom: 5px;
+  color: #0a1d31;
+}
+
+body.duck-scrollbar .summaryItem span {
+  color: rgba(16, 34, 53, 0.66);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+body.duck-scrollbar .reportCallout {
+  border-color: rgba(239, 68, 68, 0.18);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(255, 245, 245, 0.96));
+}
+
+body.duck-scrollbar .badgeGood,
+body.duck-scrollbar .badgeBad {
+  font-weight: 900;
+}
+
+body.duck-scrollbar .badgeGood {
+  color: #16885a;
+}
+
+body.duck-scrollbar .badgeBad {
+  color: #b42318;
+}
+
+body.duck-scrollbar .policyHamburger {
+  width: 42px;
+  height: 34px;
+  margin-left: auto;
+  padding: 0;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(1, 127, 254, 0.16);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.82);
+  box-shadow: 0 8px 18px rgba(1, 127, 254, 0.10);
+}
+
+body.duck-scrollbar .policyHamburger span {
+  width: 18px;
+  height: 2px;
+  background: #17324d;
+  transition: transform 0.18s ease, opacity 0.18s ease;
+  transform-origin: center;
+}
+
+body.duck-scrollbar .policyHamburger.open span:nth-child(1) {
+  transform: translateY(6px) rotate(45deg);
+}
+
+body.duck-scrollbar .policyHamburger.open span:nth-child(2) {
+  opacity: 0;
+}
+
+body.duck-scrollbar .policyHamburger.open span:nth-child(3) {
+  transform: translateY(-6px) rotate(-45deg);
+}
+
+body.duck-scrollbar .policyMenu {
+  position: fixed;
+  top: 72px;
+  right: 12px;
+  min-width: 220px;
+  padding: 8px;
+  border: 1px solid rgba(16, 34, 53, 0.10);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.98);
+  box-shadow: 0 24px 70px rgba(15, 23, 42, 0.22);
+  z-index: 2147483001;
+}
+
+body.duck-scrollbar .policyMenu a {
+  display: block;
+  padding: 11px 12px;
+  border-radius: 12px;
+  color: #17324d;
+  text-decoration: none;
+  font-weight: 900;
+}
+
+body.duck-scrollbar .policyMenu a:hover {
+  color: #017ffe;
+  background: rgba(1, 127, 254, 0.08);
+}
+
+body.duck-scrollbar #footer {
+  width: min(1040px, calc(100% - 32px));
+  margin: 0 auto 28px;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  flex-wrap: nowrap;
+  border: 1px solid rgba(16, 34, 53, 0.08);
+  border-radius: 22px;
+  background: #ffffff;
+  box-shadow: 0 14px 34px rgba(23, 50, 77, 0.07);
+  color: rgba(16, 34, 53, 0.72);
+  font-size: 13px;
+  line-height: 1.2;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+body.duck-scrollbar #footer::-webkit-scrollbar {
+  display: none;
+}
+
+body.duck-scrollbar #footer p,
+body.duck-scrollbar #footer a {
+  flex: 0 0 auto;
+  margin: 0;
+  white-space: nowrap;
+}
+
+body.duck-scrollbar #footer a {
+  color: #17324d;
+  text-decoration: none;
+  font-weight: 800;
+}
+
+body.duck-scrollbar #footer a:hover {
+  color: #017ffe;
+}
+
+@media (max-width: 768px) {
+  body.duck-scrollbar #top-bar {
+    min-height: 72px;
+    padding: 10px 12px;
+  }
+
+  body.duck-scrollbar #main-nav.policyLinks {
+    display: none;
+  }
+
+  body.duck-scrollbar .policyHamburger {
+    display: inline-flex;
+  }
+
+  body.duck-scrollbar #logo .logo {
+    width: clamp(148px, 38vw, 172px);
+  }
+
+  body.duck-scrollbar #content {
+    width: min(100% - 24px, 860px);
+    margin: 28px auto 34px;
+    padding: 22px;
+    border-radius: 24px;
+  }
+
+  body.duck-scrollbar #content h1 {
+    font-size: clamp(36px, 12vw, 52px);
+  }
+
+  body.duck-scrollbar .guidelinesHero,
+  body.duck-scrollbar .ruleSummary,
+  body.duck-scrollbar .grid {
+    grid-template-columns: 1fr;
+  }
+
+  body.duck-scrollbar #footer {
+    width: min(100% - 20px, 1040px);
+    justify-content: flex-start;
+    gap: 10px;
+    padding: 12px 14px;
+    font-size: 12px;
+    border-radius: 18px;
+  }
+}

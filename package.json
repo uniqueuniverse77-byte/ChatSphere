@@ -1,17 +1,21 @@
 {
-  "name": "uhmegle-clone",
+  "name": "ChatSphere",
   "version": "1.0.0",
+  "description": "ChatSphere — a free ChatSphere alternative for random video & text chat with strangers. Marketing front-end + working Socket.IO/WebRTC chat backend.",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "dev": "node server.js"
   },
   "dependencies": {
-    "express": "^4.22.1",
-    "node-fetch": "^2.7.0",
-    "socket.io": "^4.8.3"
+    "express": "^4.19.2",
+    "node-fetch": "^2.3.0",
+    "socket.io": "^4.7.5"
   },
-  "description": "",
-  "keywords": [],
-  "author": "",
-  "license": "ISC"
+  "engines": {
+    "node": ">=18"
+  },
+  "devDependencies": {
+    "pm2": "^7.0.4"
+  }
 }

@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>ChatSphere Text Omegle Alternative – Chat with Strangers | ChatSphere</title>
+  <meta name="description" content="Looking for ChatSphere text chat? ChatSphere is a free ChatSphere alternative to chat with strangers anonymously by text. Adults-only (18+), interest matching, and easy skip/report." />
+  <meta name="keywords" content="ChatSphere text chat, ChatSphere alternative, ChatSphere, random chat, chat with strangers, anonymous text chat, ChatSphere replacement, free text chat, 18+ chat" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="ChatSphere Text Chat Alternative – Chat with Strangers | ChatSphere" />
+  <meta property="og:description" content="Free ChatSphere alternative for anonymous text chat with strangers. 18+ only, interests, moderation, and fast skip." />
+  <meta property="og:image" content="assets/x.png" />
+  <link rel="canonical" href="chat.html" />
+  <link rel="icon" href="favicon.png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com/" />
+  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet" />
+
+  <!-- Bootstrap Icons for control buttons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" />
+
+  <link rel="stylesheet" href="css/video2501b.css?v=20260607" />
+  <link rel="stylesheet" href="chat-app/style.css?v=working8" />
+
+  <!-- Age gate -->
+  <script>
+    (function () {
+      var KEY = 'ChatSphere_age_gate_accepted_v1';
+      try { window.localStorage && window.localStorage.setItem(KEY, '1'); } catch (_) {}
+      try { document.cookie = KEY + '=1; Path=/; Max-Age=31536000; SameSite=Lax'; } catch (_) {}
+    })();
+  </script>
+
+  <!-- Pre-paint theme to avoid flash of wrong theme (FOUC) -->
+  <script src="chat-app/theme.js?v=working8"></script>
+</head>
+
+<body class="chat-page">
+
+  <!-- Header -->
+  <header class="chat-header">
+    <a class="logo-link" href="index.html" aria-label="ChatSphere home">
+      <img src="assets/logo.png" alt="ChatSphere" />
+      <span class="brand-name">ChatSphere</span>
+    </a>
+    <span class="online-pill"><span class="dot"></span><span id="onlineCount">0 online</span></span>
+    <span class="header-spacer"></span>
+    <button id="themeToggleBtn" class="theme-toggle-btn" type="button" title="Switch to dark mode" aria-label="Toggle dark mode">
+      <i class="bi bi-moon-stars-fill"></i>
+    </button>
+    <a class="ghost-link" href="video.html">Switch to Video</a>
+    <a class="ghost-link" href="safety.html">Safety</a>
+    <a class="ghost-link" href="privacy.html">Privacy</a>
+    <a class="ghost-link" href="tos.html">Terms</a>
+  </header>
+
+  <main class="chat-wrap">
+
+    <section class="chat-hero">
+      <h1>Anonymous Text Chat with Strangers</h1>
+      <p>Pick a few interests below and we'll match you with a like-minded stranger from anywhere in the world. No signup, no webcam required. Adults-only (18+).</p>
+    </section>
+
+    <!-- Interest entry card -->
+    <section id="interestCard" class="interest-card">
+      <h2>What are you into?</h2>
+      <p class="lead">Choose at least one interest so we can pair you with someone you'll actually click with.</p>
+      <div id="interestGrid" class="interest-grid"></div>
+      <div class="interest-custom">
+        <input id="interestCustomInput" type="text" placeholder="Add your own interest (e.g. k-pop, chess, indie films)…" autocomplete="off" />
+        <button id="addInterestBtn" class="btn btn-secondary" type="button">Add</button>
+      </div>
+      <div class="start-row">
+        <button id="startChatBtn" class="btn btn-primary" type="button">Start Text Chat</button>
+      </div>
+      <div class="age-gate-note">
+        <strong>18+ only.</strong> By starting a chat you confirm you are an adult and accept our
+        <a href="tos.html">Terms</a> and <a href="safety.html">Safety Policy</a>.
+      </div>
+    </section>
+
+    <!-- Chat area (hidden until interests submitted) -->
+    <section id="chatArea">
+
+      <!-- Control toolbar (matches ChatSphere.com screenshot layout) -->
+      <div class="chat-toolbar">
+        <div class="toolbar-group">
+          <span class="toolbar-label">Match</span>
+          <select id="matchCountry" class="toolbar-select" aria-label="Match country filter">
+            <option value="">Any Country</option>
+            <option value="US">United States</option>
+            <option value="GB">United Kingdom</option>
+            <option value="CA">Canada</option>
+            <option value="AU">Australia</option>
+            <option value="IN">India</option>
+            <option value="DE">Germany</option>
+            <option value="FR">France</option>
+            <option value="BR">Brazil</option>
+            <option value="JP">Japan</option>
+            <option value="PH">Philippines</option>
+            <option value="EG">Egypt</option>
+            <option value="BD">Bangladesh</option>
+            <option value="PK">Pakistan</option>
+            <option value="TR">Turkey</option>
+            <option value="MX">Mexico</option>
+            <option value="RU">Russia</option>
+            <option value="KR">South Korea</option>
+            <option value="ID">Indonesia</option>
+            <option value="TH">Thailand</option>
+            <option value="VN">Vietnam</option>
+            <option value="SA">Saudi Arabia</option>
+            <option value="AE">UAE</option>
+            <option value="NG">Nigeria</option>
+            <option value="ZA">South Africa</option>
+          </select>
+        </div>
+
+        <div class="toolbar-divider" aria-hidden="true"></div>
+
+        <div class="toolbar-group">
+          <label class="toolbar-toggle" title="Automatically skip to next stranger when current one disconnects">
+            <input type="checkbox" id="autoNextToggle" />
+            <span class="toggle-track"><span class="toggle-thumb"></span></span>
+            <span class="toggle-label">Auto-next</span>
+          </label>
+          <label class="toolbar-toggle" title="Automatically send a message when you connect with a new stranger">
+            <input type="checkbox" id="autoMessageToggle" />
+            <span class="toggle-track"><span class="toggle-thumb"></span></span>
+            <span class="toggle-label">Auto-message</span>
+          </label>
+          <input id="autoMessageText" type="text" class="auto-message-input" placeholder="Auto message text..." disabled autocomplete="off" />
+        </div>
+
+        <div class="toolbar-spacer"></div>
+
+        <div class="toolbar-group">
+          <span id="strangerScore" class="score-badge">Stranger's Score <strong>0</strong></span>
+          <button id="upvoteBtn" class="vote-btn vote-up" type="button" title="Upvote this stranger">
+            <i class="bi bi-hand-thumbs-up-fill"></i> Upvote
+          </button>
+          <button id="downvoteBtn" class="vote-btn vote-down" type="button" title="Downvote this stranger">
+            <i class="bi bi-hand-thumbs-down-fill"></i> Downvote
+          </button>
+        </div>
+      </div>
+
+      <!-- Partner info bar (status / shared interests) -->
+      <div id="partnerBar" class="partner-bar" style="display:none;">
+        <span id="partnerFlag" class="partner-flag" style="display:none;">
+          <img src="" alt="" />
+        </span>
+        <div id="partnerCountry" class="partner-text"></div>
+        <div id="sharedInterests" class="shared-interests"></div>
+        <span class="partner-spacer"></span>
+        <div id="partnerStatus" class="status-searching"></div>
+      </div>
+
+      <!-- Chat box with floating pill + timer overlay -->
+      <div class="chat-box-card">
+        <div id="chatBox" class="chat-box"></div>
+
+        <!-- Floating "Stranger is from X" pill (above messages, centered) -->
+        <div id="strangerCountryPill" class="stranger-country-pill" style="display:none;">
+          Stranger is from <strong id="strangerCountryName">Unknown</strong>
+          <span id="strangerCountryFlag" class="pill-flag">🏳</span>
+        </div>
+
+        <!-- Session timer (top-right of chat box) -->
+        <div id="sessionTimer" class="session-timer" style="display:none;">00:00:00</div>
+
+        <!-- Typing indicator -->
+        <div id="typingIndicator" class="typing-indicator" style="display:none;"></div>
+      </div>
+    </section>
+
+    <!-- hidden video card so script.js can run without error -->
+    <div id="videoCard" style="display:none;"></div>
+
+  </main>
+
+  <!-- Bottom-pinned input bar: Next (Esc) + text input + attach + Send (Enter).
+       Direct child of <body> so it always sits at the very bottom of the page.
+       Footer removed per user request. -->
+  <div class="chat-input-row" id="chatInputBar">
+    <button id="skipBtn" class="btn btn-primary next-btn" type="button" title="Skip to next stranger (Esc)">
+      <span class="btn-stack">
+        <span class="btn-label">Next</span>
+        <span class="btn-subtitle">Esc</span>
+      </span>
+    </button>
+    <input id="chatInput" type="text" placeholder="Type a message..." autocomplete="off" />
+    <input id="fileInput" type="file" style="display:none;" accept="image/*,video/*,application/pdf" />
+    <button id="attachmentBtn" class="icon-btn" type="button" title="Attach file">
+      <i class="bi bi-paperclip"></i>
+    </button>
+    <button id="sendBtn" class="btn btn-primary send-btn" type="button" title="Send message (Enter)">
+      <span class="btn-stack">
+        <span class="btn-label">Send</span>
+        <span class="btn-subtitle">Enter</span>
+      </span>
+    </button>
+  </div>
+
+  <!-- Socket.IO client + chat app -->
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="chat-app/script.js?v=working8"></script>
+</body>
+</html>
