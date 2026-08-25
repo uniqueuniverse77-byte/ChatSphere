@@ -50,6 +50,21 @@ app.use((req, res, next) => {
 let waitingUsers = [];
 let onlineUsers = 0;
 
+// ------------------------------------------------------------------
+// Public REST endpoint: current online user count.
+// The landing page (index.html) polls this via fetch('/api/online-count')
+// so it can display the live "N+ online" counter WITHOUT opening a
+// Socket.IO / WebSocket connection just for that number. (chat.html and
+// video.html, which already have a Socket.IO connection for chat, receive
+// the same value via the 'onlineCount' event.)
+//
+// Response: 200 OK, application/json  ->  { "online": <number> }
+// ------------------------------------------------------------------
+app.get('/api/online-count', (req, res) => {
+  res.set('Cache-Control', 'no-store, no-cache, must-revalidate');
+  res.json({ online: onlineUsers });
+});
+
 function normalizeIP(ip) {
   if (!ip) return '';
   if (ip.startsWith('::ffff:')) ip = ip.replace('::ffff:', '');

@@ -410,7 +410,7 @@
         <div id="message-content">
           <h2>Looking for Omegle? Try ChatSphere.</h2>
           <p class="intro-text">
-            ChatSphere is a modern <strong>Omegle alternative</strong> to talk to strangers through random video chat or text chat.
+            ChatSphere is a modern <strong>ChatSphere alternative</strong> to talk to strangers through random video chat or text chat.
             Add interests to match faster, skip instantly, and report bad behavior. No signup required.
           </p>
 
@@ -943,12 +943,20 @@
       });
 
       onIdle(function () {
-        window.setInterval(fetchPeopleOnline, 60000);
+        // Poll every 10s (down from 60s) so the homepage counter actually feels live
+        // without opening a Socket.IO connection just for this number.
+        window.setInterval(fetchPeopleOnline, 10000);
         // Keep shared low-priority widgets/presence, but do not open a homepage WebSocket.
         if (typeof window.__loadChatSphereCommon === 'function') {
           window.setTimeout(window.__loadChatSphereCommon, 3000);
         }
       });
+
+      // Re-poll immediately when the user returns to the tab.
+      document.addEventListener('visibilitychange', function () {
+        if (document.visibilityState === 'visible') fetchPeopleOnline();
+      });
+      window.addEventListener('focus', fetchPeopleOnline);
     });
   </script>
 
