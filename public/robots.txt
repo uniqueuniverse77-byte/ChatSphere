@@ -1,0 +1,14 @@
+User-agent: *
+Allow: /
+
+# Age-gate interstitials and redirect stubs — keep out of the index
+Disallow: /continue.html
+Disallow: /continue4d91.html
+Disallow: /continue80df.html
+Disallow: /interests/
+Disallow: /omegle-alternative/
+Disallow: /random-video-chat/
+Disallow: /safe-omegle-alternative/
+Disallow: /video/
+
+Sitemap: https://omegleweb.com/sitemap.xml
