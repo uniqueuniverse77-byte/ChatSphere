@@ -11,4 +11,4 @@ Disallow: /random-video-chat/
 Disallow: /safe-omegle-alternative/
 Disallow: /video/
 
-Sitemap: https://omegleweb.com/sitemap.xml
+Sitemap: https://chatsphere-fsn2.onrender.com/sitemap.xml
