@@ -387,7 +387,7 @@
         createPeerConnection(0);
       }
     }
-    appendSystem(`Connected — say hi! (18+ only, be respectful.)`);
+    appendSystem(`Connected — say hi! (Please Be Respectful.)`);
     // On the video page the partner bar is hidden; surface the partner's
     // country as a system line in the chat box so the user has context.
     if (isVideoPage && data.country && data.country !== 'Unknown') {
