@@ -1243,6 +1243,18 @@ body:not(.no-transition) body {
   font-size: 16px;
   margin-left: 4px;
 }
+/* Real flag image (flagcdn.com) — renders on every OS, unlike flag emoji
+   which shows as letters like "BD" on Windows. */
+.stranger-country-pill .pill-flag img,
+img.flag-img {
+  width: 22px;
+  height: 17px;
+  border-radius: 3px;
+  display: inline-block;
+  vertical-align: -3px;
+  object-fit: cover;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.15);
+}
 
 /* Session timer (top-right of chat box, overlay) */
 .session-timer {
@@ -2104,6 +2116,16 @@ body.dark-mode .identity-chip {
   border-color: rgba(255, 255, 255, 0.10);
 }
 body.dark-mode .identity-chip:hover { border-color: var(--blue); color: var(--blue); }
+/* Selected state in dark mode — WITHOUT this rule the base dark style above
+   (higher specificity than the light-mode .identity-chip.selected) hides the
+   blue selection highlight entirely, so clicking a chip shows NO feedback. */
+body.dark-mode .identity-chip.selected {
+  background: var(--blue);
+  border-color: var(--blue);
+  color: #fff;
+}
+body.dark-mode .identity-chip.selected:hover { color: #fff; }
+body.dark-mode .identity-chip.selected i { color: #fff; }
 body.dark-mode .popup-btn-secondary { background: rgba(255, 255, 255, 0.06); color: #8b98a8; }
 body.dark-mode .popup-btn-secondary:hover { background: rgba(255, 255, 255, 0.12); color: var(--ink); }
 body.dark-mode .price-card { background: #1c232c; border-color: rgba(255, 255, 255, 0.10); }

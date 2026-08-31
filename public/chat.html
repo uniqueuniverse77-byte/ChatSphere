@@ -4,12 +4,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>ChatSphere Text Omegle Alternative – Chat with Strangers | ChatSphere</title>
-  <meta name="description" content="Looking for ChatSphere text chat? ChatSphere is a free ChatSphere alternative to chat with strangers anonymously by text. Adults-only (18+), interest matching, and easy skip/report." />
+  <meta name="description" content="Looking for ChatSphere text chat? ChatSphere is a free ChatSphere alternative to chat with strangers anonymously by text. , interest matching, and easy skip/report." />
   <meta name="keywords" content="ChatSphere text chat, ChatSphere alternative, ChatSphere, random chat, chat with strangers, anonymous text chat, ChatSphere replacement, free text chat, 18+ chat" />
 
   <meta property="og:type" content="website" />
   <meta property="og:title" content="ChatSphere Text Chat Alternative – Chat with Strangers | ChatSphere" />
-  <meta property="og:description" content="Free ChatSphere alternative for anonymous text chat with strangers. 18+ only, interests, moderation, and fast skip." />
+  <meta property="og:description" content="Free ChatSphere alternative for anonymous text chat with strangers. , interests, moderation, and fast skip." />
   <meta property="og:image" content="assets/x.png" />
   <link rel="canonical" href="chat.html" />
   <link rel="icon" href="favicon.png" />
@@ -22,7 +22,7 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" />
 
   <link rel="stylesheet" href="css/video2501b.css?v=20260607" />
-  <link rel="stylesheet" href="chat-app/style.css?v=working8" />
+  <link rel="stylesheet" href="chat-app/style.css?v=working11" />
 
   <!-- Age gate -->
   <script>
@@ -115,6 +115,9 @@
             <option value="NG">Nigeria</option>
             <option value="ZA">South Africa</option>
           </select>
+          <button id="iamBtn" class="vote-btn" type="button" title="Set your identity and who you're looking for (applies on next match)">
+            <i class="bi bi-person"></i> I am / Looking for
+          </button>
         </div>
 
         <div class="toolbar-divider" aria-hidden="true"></div>
@@ -134,7 +137,7 @@
         </div>
 
         <div class="toolbar-spacer"></div>
-
+         <!--
         <div class="toolbar-group">
           <span id="strangerScore" class="score-badge">Stranger's Score <strong>0</strong></span>
           <button id="upvoteBtn" class="vote-btn vote-up" type="button" title="Upvote this stranger">
@@ -143,7 +146,7 @@
           <button id="downvoteBtn" class="vote-btn vote-down" type="button" title="Downvote this stranger">
             <i class="bi bi-hand-thumbs-down-fill"></i> Downvote
           </button>
-        </div>
+        </div>-->
       </div>
 
       <!-- Partner info bar (status / shared interests) -->
@@ -203,8 +206,37 @@
     </button>
   </div>
 
+  <!-- ====================== Identity / Looking-for filter popup ======================
+       Same markup as video.html — the shared script.js already wires the
+       iamBtn button, the identity/looking chips and localStorage persistence. -->
+  <div id="iamPopup" class="deck-popup" style="display:none;">
+    <div class="popup-card">
+      <button type="button" class="popup-close" data-close title="Close">&times;</button>
+      <h3><i class="bi bi-person"></i> I am / Looking for</h3>
+      <p>Tell strangers how you identify and who you'd like to meet. Applies from your next match.</p>
+      <label class="popup-label">I am</label>
+      <div class="chip-row" id="iamChips">
+        <button type="button" class="identity-chip" data-identity="">Prefer not to say</button>
+        <button type="button" class="identity-chip" data-identity="male"><i class="bi bi-gender-male"></i> Male</button>
+        <button type="button" class="identity-chip" data-identity="female"><i class="bi bi-gender-female"></i> Female</button>
+        <button type="button" class="identity-chip" data-identity="couple"><i class="bi bi-people-fill"></i> Couple</button>
+        <button type="button" class="identity-chip" data-identity="nonbinary"><i class="bi bi-gender-ambiguous"></i> Non-binary</button>
+      </div>
+      <label class="popup-label">Looking for</label>
+      <div class="chip-row" id="lookingChips">
+        <button type="button" class="identity-chip" data-looking="anyone">Anyone</button>
+        <button type="button" class="identity-chip" data-looking="male">Male</button>
+        <button type="button" class="identity-chip" data-looking="female">Female</button>
+        <button type="button" class="identity-chip" data-looking="couple">Couple</button>
+      </div>
+      <div class="popup-actions">
+        <button type="button" class="popup-btn popup-btn-secondary" data-close>Close</button>
+      </div>
+    </div>
+  </div>
+
   <!-- Socket.IO client + chat app -->
   <script src="/socket.io/socket.io.js"></script>
-  <script src="chat-app/script.js?v=working8"></script>
+  <script src="chat-app/script.js?v=working11"></script>
 </body>
 </html>

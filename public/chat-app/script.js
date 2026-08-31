@@ -199,10 +199,23 @@
   }
 
   // -------------------- Geolocation --------------------
+  // Map an ISO alpha-2 code ("BD") to its English country name ("Bangladesh")
+  // using the browser-native Intl API (Chrome 81+, Firefox 86+, Safari 14.1+).
+  function codeToCountryName(code) {
+    const cc = String(code || '').toUpperCase();
+    if (!/^[A-Z]{2}$/.test(cc) || cc === 'UN') return 'Unknown';
+    try {
+      const name = new Intl.DisplayNames(['en'], { type: 'region' }).of(cc);
+      if (name && name !== cc && name.toLowerCase() !== 'unknown') return name;
+    } catch (_) { /* Intl.DisplayNames unavailable on this browser */ }
+    return 'Unknown';
+  }
   async function getUserLocation() {
+    // Provider order: full name+code first, code-only provider last.
     const services = [
-      'https://ipapi.co/json/',
-      'https://ipinfo.io/json'
+      'https://ipapi.co/json/',    // returns country_name + country_code
+      'https://ipwho.is/',         // free, no key — returns country + country_code
+      'https://ipinfo.io/json'     // FREE TIER RETURNS ONLY THE ISO CODE
     ];
     for (const service of services) {
       try {
@@ -210,13 +223,22 @@
         const data = await response.json();
         if (service.includes('ipapi.co') && !data.error) {
           return {
-            country: data.country_name || 'Unknown',
+            country: data.country_name || codeToCountryName(data.country),
             countryCode: data.country_code || data.country || 'UN'
           };
-        } else if (service.includes('ipinfo.io') && data.country) {
+        } else if (service.includes('ipwho.is') && data.success !== false && data.country) {
           return {
-            country: data.country || 'Unknown',
-            countryCode: data.country || 'UN'
+            country: data.country || codeToCountryName(data.country_code),
+            countryCode: data.country_code || 'UN'
+          };
+        } else if (service.includes('ipinfo.io') && data.country) {
+          // ⚠ ipinfo.io's data.country is the ISO alpha-2 CODE ("BD"), not the
+          // name. Sending it as `country` made the pill show "Stranger is from
+          // BD". Resolve the real name locally instead.
+          const cc = String(data.country || '').toUpperCase();
+          return {
+            country: codeToCountryName(cc),
+            countryCode: cc || 'UN'
           };
         }
       } catch (error) {
@@ -316,6 +338,10 @@
   function setSearching() {
     if (partnerBar) partnerBar.style.display = 'flex';
     if (partnerStatus) {
+      partnerStatus.style.display = 'flex';
+      partnerStatus.style.justifyContent = 'center';
+      partnerStatus.style.alignItems = 'center';
+      partnerStatus.style.textAlign = 'center';
       partnerStatus.innerHTML = `<span class="status-searching">Looking for a stranger who shares your interests…</span>`;
     }
     if (partnerFlag) partnerFlag.style.display = 'none';
@@ -387,12 +413,13 @@
         createPeerConnection(0);
       }
     }
-    appendSystem(`Connected — say hi! (Please Be Respectful.)`);
+    appendSystem(`Connected — say hi! (Be Respectful.)`);
     // On the video page the partner bar is hidden; surface the partner's
     // country as a system line in the chat box so the user has context.
+    // Uses a real flagcdn.com image (NOT an emoji) — Windows cannot render
+    // country-flag emoji and would show the letters "BD" instead of the flag.
     if (isVideoPage && data.country && data.country !== 'Unknown') {
-      const flagEmoji = countryCodeToFlagEmoji(data.countryCode);
-      appendSystem(`Stranger is from ${data.country} ${flagEmoji}`);
+      appendSystemHtml(`Stranger is from <b>${escapeHtml(data.country)}</b> ${flagImgHtml(data.countryCode)}`);
     }
 
     // Auto-message: if the toggle is on and text isn't empty, send it now
@@ -481,7 +508,15 @@
     isRemoteDescSet = false;
     resetVideoControls();
     setSearching();
-    socket.emit('newMatch');
+    // Re-send the user's CURRENT filter selections (country dropdown, I am /
+    // Looking for chips) so mid-session filter changes apply to this next
+    // match. Without this, the server would reuse the values captured at
+    // connect time and ignore everything the user changed afterwards.
+    socket.emit('newMatch', {
+      matchCountry: matchCountryFilter || (matchCountrySelect ? matchCountrySelect.value : ''),
+      identity: identityValue,
+      lookingFor: lookingForValue
+    });
   }
 
   // -------------------- WebRTC --------------------
@@ -627,16 +662,33 @@
     chatBox.scrollTop = chatBox.scrollHeight;
   }
   function appendSystem(text) { appendMessage(text, 'system'); }
+  // System line that may contain inline HTML (e.g. the flagcdn <img>), for
+  // messages where a plain-text emoji flag would be invisible on Windows.
+  function appendSystemHtml(html) {
+    if (!chatBox) return;
+    const div = document.createElement('div');
+    div.className = 'message system';
+    div.innerHTML = html;
+    chatBox.appendChild(div);
+    chatBox.scrollTop = chatBox.scrollHeight;
+  }
 
   function appendFileMessage(fileInfo, type) {
     if (!chatBox) return;
+    // Normalize the type: callers historically used two different strings
+    // ('user' from the sender path, 'user-message' from other paths) for the
+    // same semantic — "this is the local user's own outgoing attachment". If
+    // we don't normalize, the label falls through to "Stranger:" on the
+    // sender's own file, the wrapper class becomes 'stranger' instead of
+    // 'user', and no read-receipt is appended. Treat both as the same.
+    const isOwn = (type === 'user' || type === 'user-message');
     const div = document.createElement('div');
-    div.className = `message file ${type === 'user-message' ? 'user' : 'stranger'}`;
+    div.className = `message file ${isOwn ? 'user' : 'stranger'}`;
 
     // Always start with the colored label so file rows match the chat style
     const label = document.createElement('span');
     label.className = 'msg-label';
-    label.textContent = (type === 'user-message') ? 'You:' : 'Stranger:';
+    label.textContent = isOwn ? 'You:' : 'Stranger:';
     div.appendChild(label);
 
     const body = document.createElement('span');
@@ -667,7 +719,7 @@
       body.appendChild(a);
     }
     div.appendChild(body);
-    if (type === 'user-message') div.appendChild(makeReadReceipt());
+    if (isOwn) div.appendChild(makeReadReceipt());
     chatBox.appendChild(div);
     chatBox.scrollTop = chatBox.scrollHeight;
   }
@@ -968,18 +1020,19 @@
   }
 
   // -------------------- Floating stranger pill --------------------
-  // Tiny country-code → emoji flag helper (covers all ISO-3166 alpha-2 codes).
-  function countryCodeToFlagEmoji(cc) {
-    if (!cc || cc.length !== 2 || cc === 'UN') return '🏳';
-    const base = 0x1F1E6;
-    const A = 'A'.charCodeAt(0);
-    const chars = cc.toUpperCase().split('').map(ch => base + (ch.charCodeAt(0) - A));
-    try { return String.fromCodePoint(...chars); } catch (_) { return '🏳'; }
+  // Country-code → real flag IMAGE via flagcdn.com (NOT an emoji).
+  // Windows does not ship country-flag emoji glyphs, so 🇧🇩 renders as the
+  // literal letters "BD" there — a PNG flag renders identically everywhere.
+  function flagImgHtml(cc) {
+    const code = (cc || '').toUpperCase();
+    if (!/^[A-Z]{2}$/.test(code) || code === 'UN') return '🏳';
+    return `<img class="flag-img" src="https://flagcdn.com/32x24/${code.toLowerCase()}.png" ` +
+           `alt="${code} flag" width="22" height="17" loading="lazy">`;
   }
   function showStrangerPill(country, countryCode) {
     if (!strangerCountryPill) return;
     if (strangerCountryName) strangerCountryName.textContent = (country && country !== 'Unknown') ? country : (countryCode || 'Unknown');
-    if (strangerCountryFlag) strangerCountryFlag.textContent = countryCodeToFlagEmoji(countryCode);
+    if (strangerCountryFlag) strangerCountryFlag.innerHTML = flagImgHtml(countryCode);
     strangerCountryPill.style.display = 'block';
     // Auto-hide after 6 seconds (matches ChatSphere screenshot behaviour)
     clearTimeout(showStrangerPill._t);
@@ -1082,6 +1135,19 @@
     const savedLooking = window.localStorage.getItem('ChatSphere_looking_for');
     if (savedLooking) lookingForValue = savedLooking;
   } catch (_) {}
+
+  // chat.html: make the country dropdown the authoritative filter UI.
+  // Reflect any restored saved filter (set on video.html's Country popup)
+  // into the dropdown, and persist dropdown changes so the emit path
+  // (matchCountryFilter || select.value) always matches what the user sees.
+  // Null-guarded: video.html has no #matchCountry select.
+  if (matchCountrySelect) {
+    if (matchCountryFilter) matchCountrySelect.value = matchCountryFilter;
+    matchCountrySelect.addEventListener('change', () => {
+      matchCountryFilter = matchCountrySelect.value;
+      try { window.localStorage.setItem('ChatSphere_match_country', matchCountryFilter); } catch (_) {}
+    });
+  }
 
   // Generic popup helpers
   function openPopup(popup) {

@@ -71,8 +71,9 @@ function normalizeIP(ip) {
   return ip;
 }
 
-function getCountryCode(country) {
-  const countryCodes = {
+// ISO-3166 country name → alpha-2 code map (module-level so it can also be
+// reversed for code → name lookups).
+const COUNTRY_CODES = {
     'Philippines': 'PH','United States': 'US','United Kingdom': 'GB','Canada': 'CA',
     'Australia': 'AU','India': 'IN','Germany': 'DE','France': 'FR','Italy': 'IT',
     'Spain': 'ES','Netherlands': 'NL','Brazil': 'BR','Japan': 'JP','China': 'CN',
@@ -109,8 +110,21 @@ function getCountryCode(country) {
     'Swaziland': 'SZ','Somalia': 'SO','Liberia': 'LR','Djibouti': 'DJ',
     'Comoros': 'KM','Cape Verde': 'CV','São Tomé and Príncipe': 'ST',
     'Seychelles': 'SC','Mauritius': 'MU','Eritrea': 'ER','Unknown': 'UN'
-  };
-  return countryCodes[country] || 'UN';
+};
+
+function getCountryCode(country) {
+  return COUNTRY_CODES[country] || 'UN';
+}
+
+// Reverse lookup: alpha-2 code → country name (e.g. 'BD' → 'Bangladesh').
+// Needed because ipinfo.io's free response only contains the ISO code.
+let _codeToCountry = null;
+function getCountryName(code) {
+  if (!_codeToCountry) {
+    _codeToCountry = {};
+    for (const [name, cc] of Object.entries(COUNTRY_CODES)) _codeToCountry[cc] = name;
+  }
+  return _codeToCountry[code] || null;
 }
 
 // Detect client country from IP — runs in the background so it never blocks
@@ -157,15 +171,35 @@ async function detectCountry(socket) {
   }
 
   // Fallback: ipinfo.io
+  // NOTE: ipinfo.io's free /json response contains ONLY the ISO alpha-2 code
+  // (e.g. { country: "BD" }) — no country name. Resolve the name locally via
+  // the reverse map so users see "Bangladesh" instead of the raw code "BD".
   if (country === 'Unknown') {
     try {
       const fallbackRes = await fetch(`https://ipinfo.io/${ip}/json`);
       const fallbackData = await fallbackRes.json();
       if (fallbackData && fallbackData.country) {
         countryCode = fallbackData.country || 'UN';
+        country = getCountryName(countryCode) || 'Unknown';
       }
     } catch (fallbackErr) {
-      console.error('Both geolocation APIs failed:', fallbackErr.message);
+      console.error('ipinfo.io fallback failed:', fallbackErr.message);
+    }
+  }
+
+  // Last resort: ipwho.is (free, no key, returns BOTH the country name and
+  // code). Covers the case where both ipapi.co and ipinfo.io are rate-limited
+  // or blocked (common on cloud/datacenter egress IPs such as Render's).
+  if (country === 'Unknown') {
+    try {
+      const whoRes = await fetch(`https://ipwho.is/${ip}`);
+      const whoData = await whoRes.json();
+      if (whoData && whoData.success !== false && whoData.country_code) {
+        country = whoData.country || getCountryName(whoData.country_code) || 'Unknown';
+        countryCode = whoData.country_code || 'UN';
+      }
+    } catch (whoErr) {
+      console.error('All geolocation APIs failed:', whoErr.message);
     }
   }
 
@@ -250,21 +284,24 @@ function createMatch(user1, user2) {
   user1.socket.emit('clearChat');
   user2.socket.emit('clearChat');
 
+  // Use the LIVE socket geo values (not the queue-time snapshot): server-side
+  // detection may resolve AFTER the user was queued, and the live value is
+  // always at least as fresh as the snapshot captured at setInterests time.
   user1.socket.emit('partner', {
     id: user2.socket.id,
-    country: user2.country,
-    countryCode: user2.countryCode,
+    country: user2.socket.country || user2.country || 'Unknown',
+    countryCode: user2.socket.countryCode || user2.countryCode || 'UN',
     interests: (user2.interests || []).filter(i => (user1.interests || []).includes(i))
   });
 
   user2.socket.emit('partner', {
     id: user1.socket.id,
-    country: user1.country,
-    countryCode: user1.countryCode,
+    country: user1.socket.country || user1.country || 'Unknown',
+    countryCode: user1.socket.countryCode || user1.countryCode || 'UN',
     interests: (user1.interests || []).filter(i => (user2.interests || []).includes(i))
   });
 
-  console.log(`Matched ${user1.socket.id} (${user1.country}) with ${user2.socket.id} (${user2.country})`);
+  console.log(`Matched ${user1.socket.id} (${user1.socket.country || user1.country}) with ${user2.socket.id} (${user2.socket.country || user2.country})`);
 }
 
 // ------------------------------------------------------------------
@@ -339,8 +376,19 @@ io.on('connection', socket => {
     }
   });
 
-  socket.on('newMatch', () => {
+  socket.on('newMatch', (data) => {
     console.log(`User ${socket.id} requested a new match`);
+
+    // The client re-sends its current filter selections with newMatch so
+    // mid-session changes (country dropdown, I am / Looking for chips)
+    // apply to THIS match instead of the values captured at connect time.
+    // Payload is optional and validated exactly like setInterests.
+    if (data && typeof data === 'object') {
+      if (typeof data.matchCountry === 'string') socket.matchCountry = data.matchCountry.toUpperCase().slice(0, 2);
+      if (typeof data.identity === 'string')     socket.identity = data.identity.toLowerCase();
+      if (typeof data.lookingFor === 'string')   socket.lookingFor = data.lookingFor.toLowerCase() || 'anyone';
+      console.log(`User ${socket.id} filters updated: match=${socket.matchCountry || '-'}, identity=${socket.identity || '-'}, lookingFor=${socket.lookingFor}`);
+    }
 
     if (socket.partner) {
       socket.partner.emit('partner-left');
